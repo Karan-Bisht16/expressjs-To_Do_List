@@ -5,10 +5,10 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import { log } from "console";
-import morgan from "morgan";
+// import morgan from "morgan";
 
 const app = express();
-const port = 3000;
+const port = 1600;
 
 app.use(express.urlencoded({extended:true}));
 
@@ -22,10 +22,10 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use(morgan('common'));
+// app.use(morgan('common'));
 
 const array=[];
-var theme = 'light_mode';
+var theme = 'dark_mode';
 app.get('/', (req,res)=>{
     req.session.theme = theme;
     // console.log('GET: '+req.session.theme);
@@ -60,8 +60,9 @@ app.post('/crossOut/:id', (req,res)=>{
     } else {
         obj = {striked: true};
     }
+    res.send(obj.striked);
     Object.assign(array[index], obj);
-    res.redirect('/');
+    // res.redirect('/');
 });
 app.listen(port, ()=>{
     log(`Server starting on port ${port}.`);

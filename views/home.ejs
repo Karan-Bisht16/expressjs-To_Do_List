@@ -8,8 +8,8 @@
             </form>
         </div>
         <div class="searchBar">
-            <button id="backBtn" onclick="restoreOriginal();"><img src="./images/img-back-button.png" width="25px"></button>
-            <input type="text" id="search"><button id="searchBtn" type="button" onclick="searchTask();">Search</button> 
+            <button id="backBtn"><img src="./images/img-back-button.png" width="25px"></button>
+            <input type="text" id="search" onkeyup="searchTask();"><button id="searchBtn" type="button">Search</button> 
         </div>
     </div>
 
@@ -26,20 +26,19 @@
                 arrayOfTasks.push(taskTitle);
                 i++;
                 %>
-                <div class="visible" id="activity<%= i %>">
-                    <div class='container'>
-                        <form id="formLabel<%= i %>" class="formLabel" action="/crossOut/<%= i %>" method="POST" onclick="submit();">
+                    <div class='container visible' id="activity<%= i %>">
+                        <form id="formLabel<%= i %>" class="formLabel" action="/crossOut/<%= i %>" method="POST" value="<%= i %>">
                             <% if (task.striked) { %>
-                                <label id='label<%= i %>'><input type='checkbox' onclick='submit();' value='<%= i+taskTitle %>' style="display: none;"><s> <%= taskTitle %></s></label>
+                                <label id='label<%= i %>'><input type='checkbox' value='<%= i %>' style="display: none;"><s> <%= taskTitle %></s></label>
                             <% } else { %>
-                                <label id='label<%= i %>'><input type='checkbox' onclick='submit();' value='<%= i+taskTitle %>' style="display: none;"> <%= taskTitle %></label>
+                                <label id='label<%= i %>'><input type='checkbox' value='<%= i %>' style="display: none;"> <%= taskTitle %></label>
                             <% } %>
                         </form>
+
                         <form action="/remove/<%= i %>" method="post">
                             <button class='removeBtn' value='<%= i %>'>Remove</button>
                         </form>
                     </div>
-                </div>
     <%
             }
         });
