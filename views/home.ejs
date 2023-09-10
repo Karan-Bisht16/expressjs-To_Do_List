@@ -1,0 +1,56 @@
+<%- include('partials/header.ejs') %>
+
+<div class="main">
+    <div class="ribbon">
+        <div class="addTask">
+            <form id="form" action="/add" method="post">
+                <input type="text" id="mainField" name="taskName" placeholder=" + Add a task" autofocus>
+            </form>
+        </div>
+        <div class="searchBar">
+            <button id="backBtn" onclick="restoreOriginal();"><img src="./images/img-back-button.png" width="25px"></button>
+            <input type="text" id="search"><button id="searchBtn" type="button" onclick="searchTask();">Search</button> 
+        </div>
+    </div>
+
+    <div class="tasks">
+    <% 
+    var i=-1;
+    var arrayOfTasks = [];
+    if (locals.data) { 
+        data.forEach((task) =>{
+            // restoreOriginal();
+            console.log(task);
+            const taskTitle = task.taskName.trim();
+            if (taskTitle!==''){ 
+                arrayOfTasks.push(taskTitle);
+                i++;
+                %>
+                <div class="visible" id="activity<%= i %>">
+                    <div class='container'>
+                        <form id="formLabel<%= i %>" class="formLabel" action="/crossOut/<%= i %>" method="POST" onclick="submit();">
+                            <% if (task.striked) { %>
+                                <label id='label<%= i %>'><input type='checkbox' onclick='submit();' value='<%= i+taskTitle %>' style="display: none;"><s> <%= taskTitle %></s></label>
+                            <% } else { %>
+                                <label id='label<%= i %>'><input type='checkbox' onclick='submit();' value='<%= i+taskTitle %>' style="display: none;"> <%= taskTitle %></label>
+                            <% } %>
+                        </form>
+                        <form action="/remove/<%= i %>" method="post">
+                            <button class='removeBtn' value='<%= i %>'>Remove</button>
+                        </form>
+                    </div>
+                </div>
+    <%
+            }
+        });
+    }
+    %>
+</div>
+    <div id="result"></div>
+    <div id="popUp" class="popUp">
+        <img src="./images/img-not-found.png" width="200px">
+        <h1>Nobody here but us chickens</h1>
+    </div>
+</div>
+
+<%- include('partials/footer.ejs') %>
