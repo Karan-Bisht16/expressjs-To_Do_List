@@ -49,7 +49,7 @@ app.post('/crossOut/:id', (req,res)=>{
         obj = {striked: true};
     }
     Object.assign(array[index], obj);
-    res.send(obj.striked);
+    res.send(obj);
 });
 
 app.post('/remove/:id', (req,res)=>{
