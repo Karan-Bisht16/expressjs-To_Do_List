@@ -25,7 +25,9 @@ app.get('/', (req,res)=>{
     req.session.theme = theme;
     if (array.length===0){
         array.push(1);
+        console.log(array);
         req.session.array = [];
+        console.log(req.session.array);
         res.render('home.ejs', {currentTheme: req.session.theme});
     } else{
         res.render('home.ejs', {data: req.session.array, currentTheme: req.session.theme});
