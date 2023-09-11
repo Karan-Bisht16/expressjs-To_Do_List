@@ -152,15 +152,9 @@ function strikeTask(label){
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             url = JSON.parse(xhttp.responseText);
             if (url.striked){
-                const text = label.children[0].textContent.trim();
-                const string = label.children[0].innerHTML;
-                const index = string.lastIndexOf(text);
-                label.children[0].innerHTML = string.slice(0,index)+'<s>'+text+' </s>';
+                label.children[0].classList.add('isChecked');
             } else if (!url.striked){
-                const text = label.children[0].textContent.trim();
-                const string = label.children[0].innerHTML;
-                const index = string.lastIndexOf('<s>');
-                label.children[0].innerHTML = string.slice(0,index)+text;
+                label.children[0].classList.remove('isChecked');
             }
         }
     };

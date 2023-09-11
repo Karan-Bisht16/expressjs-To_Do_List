@@ -5,8 +5,7 @@
 }
 body {
     color: black;
-    background-color: whitesmoke;
-    /* opacity: 10%; */
+    background-color: whitesmoke;      /* opacity: 10%; */
 }
 .dark_mode {
     color: whitesmoke;
@@ -61,7 +60,7 @@ header {
     margin: 15px 15px 0px 0px; 
     background-color: transparent; 
 }
-.themeBtn:hover{
+.themeBtn:hover {
     cursor: pointer;
     opacity: 80%;
 } 
@@ -69,13 +68,6 @@ header {
     width: 31px;
     height: 31px;
     margin: 12.5px 12.5px 0px 0px;
-}
-.formLabel:hover{
-    cursor: pointer;
-    /* background-color: #433580; */
-}
-.formLabel>label, input[type=checkbox]{
-    pointer-events: none;
 }
 .hidden {
     display: none;
@@ -91,7 +83,7 @@ header {
     font-size: 20px;
     width: 100%;
     height: 42px;
-    margin-left: 2px;   /* padding-left: 10px; */
+    margin-left: 2px;                  /* padding-left: 10px; */
     padding: 1px 1px 1px 10px;
     border: 2px solid gray;
     border-radius: 5px;
@@ -132,17 +124,16 @@ header {
 #backBtn:hover, #searchBtn:hover {
     background-color: gray;
 }
-#backBtn > img{
+#backBtn > img {
     position: relative;
     top:3.5px;
 }
-.main{
+.main {
     min-height: 444px;
 }
-.tasks{
+.tasks {
     width: 98%;
-    padding: 5px 20px 50px 0px;
-    /* padding-right: 20px; */
+    padding: 5px 20px 50px 0px;        /* padding-right: 20px; */
     margin: 0 auto;
 }
 .container {
@@ -152,34 +143,42 @@ header {
     justify-content: space-between;
     border: 1px solid gray;
     border-radius: 5px;
-    background-color: white;
-    /* background-color: inherit; */
+    background-color: white;           /* background-color: inherit; */
     margin: 5px;
     
 }
-.container.dark_mode{
+.container.dark_mode {
     background-color: rgb(55, 65, 81);
 }
-.formLabel{
+.formLabel {
     width: 100%;
 }
-.formLabel > label{
+.formLabel:hover {
+    cursor: pointer;                   /* background-color: #433580; */
+    opacity: 80%;
+}
+.formLabel > label {
     font-size: 25px;
     padding-left: 15px;
     width: inherit;
-    cursor: pointer;
+}
+.formLabel>label, input[type=checkbox] {
+    pointer-events: none;
+}
+.isChecked{
+    text-decoration: line-through;
 }
 .removeBtn {
     font-size: 20px;
     font-weight: bold;
     border: none;
     background-color: gainsboro;
-    cursor: pointer;
     padding: 0 4px;
     border-radius: 0 4px 4px 0;
     height: 100%;
 }
 .removeBtn:hover {
+    cursor: pointer;
     background-color: gray;
 }
 .popUp {
