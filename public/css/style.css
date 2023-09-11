@@ -70,12 +70,13 @@ header {
     height: 31px;
     margin: 12.5px 12.5px 0px 0px;
 }
+.formLabel:hover{
+    cursor: pointer;
+    /* background-color: #433580; */
+}
 .formLabel>label, input[type=checkbox]{
     pointer-events: none;
 }
-/* .isChecked {
-    text-decoration: line-through;
-} */
 .hidden {
     display: none;
 }
