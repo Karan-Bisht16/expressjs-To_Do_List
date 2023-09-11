@@ -22,18 +22,15 @@
                     arrayOfTasks.push(taskTitle);
                     i++;
         %>
-                        <div class='container visible' id="activity<%= i %>">
-                            <form id="formLabel<%= i %>" class="formLabel"value="<%= i %>">
+                        <div class='container visible'>
+                            <form class="formLabel" value="<%= i %>" onclick="strikeTask(this);">
                                 <% if (task.striked) { %>
-                                    <label id='label<%= i %>'><input type='checkbox' value='<%= i %>' style="display: none;"><s> <%= taskTitle %></s></label>
+                                    <label class="isChecked"><input type='checkbox' value='<%= i %>' style="display: none;"><%= taskTitle %></label>
                                 <% } else { %>
-                                    <label id='label<%= i %>'><input type='checkbox' value='<%= i %>' style="display: none;"> <%= taskTitle %></label>
+                                    <label><input type='checkbox' value='<%= i %>' style="display: none;"> <%= taskTitle %></label>
                                 <% } %>
                             </form>
-
-                            <form action="/remove/<%= i %>" method="post">
-                                <button class='removeBtn' value='<%= i %>'>Remove</button>
-                            </form>
+                            <button class='removeBtn' value='<%= i %>' onclick="removeTask(this);">Remove</button>
                         </div>
         <%
                 }
