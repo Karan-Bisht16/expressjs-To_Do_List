@@ -23,11 +23,9 @@ var array = [1];
 var theme = 'dark_mode';
 app.get('/', (req,res)=>{
     req.session.theme = theme;
-    if (array.length<1){
+    if (array.length===1){
         array.pop();
-        console.log(array);
         req.session.array = [];
-        console.log(req.session.array);
         res.render('home.ejs', {currentTheme: req.session.theme});
     } else{
         res.render('home.ejs', {data: req.session.array, currentTheme: req.session.theme});
@@ -35,6 +33,10 @@ app.get('/', (req,res)=>{
 })
 
 app.post('/add/:title', (req,res)=>{
+    if (array.length===1){
+        array.pop();
+        req.session.array = [];
+    }
     const data = {
         taskName: req.params.title,
         currentIndex: req.session.array.length
