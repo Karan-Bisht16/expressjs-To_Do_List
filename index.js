@@ -19,12 +19,12 @@ app.use(session({
     saveUninitialized: true
 }));
 
-var array = [];
+var array = [1];
 var theme = 'dark_mode';
 app.get('/', (req,res)=>{
     req.session.theme = theme;
-    if (array.length===0){
-        array.push(1);
+    if (array.length<1){
+        array.pop();
         console.log(array);
         req.session.array = [];
         console.log(req.session.array);
