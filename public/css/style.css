@@ -166,7 +166,7 @@ header {
     pointer-events: none;
 }
 .isChecked{
-    text-decoration: line-through; 
+    text-decoration: line-through;
 }
 .removeBtn {
     font-size: 20px;

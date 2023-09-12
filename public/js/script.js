@@ -54,7 +54,7 @@ window.onload=theme();
 const mainInput =document.querySelector('#mainField');
 const tasks = document.querySelector('#tasks');
 mainInput.addEventListener('keyup', function(event){
-    if (event.key==='Enter'){
+    if (event.keyCode === 13){
         const taskTitle = mainInput.value.trim();
         if (taskTitle!==''){
             var url;
@@ -112,7 +112,7 @@ const items = document.querySelectorAll(".searchItem");
 
 function searchItem(event){
     var searchValue = document.querySelector('#search');
-    if (event.key === "Enter") {
+    if (event.keyCode === 13) {
         event.preventDefault();
         searchValue.blur();
         return;
