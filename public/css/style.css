@@ -4,24 +4,35 @@
     font-family:  'Jost', sans-serif;
 }
 body {
-    color: black;
-    background-color: whitesmoke;      /* opacity: 10%; */
-}
-.dark_mode {
     color: whitesmoke;
     background-color: #1a212e;
 }
-.gradient_background_light_mode {
+body.light_mode {
+    color: black;
+    background-color: whitesmoke;      /* opacity: 10%; */
+}
+.gradient_background {
+    /* color: whitesmoke; */
+    background: linear-gradient(300deg, #3c224d, #313866, #293749, #29214e);
+    background-size: 180% 180%;
+    animation: gradient-animation 18s ease infinite;
+}
+.gradient_background.light_mode {
     color: black;
     background: linear-gradient(300deg, #eaf9e6, #D1E4D1, #98B4A6, #64868E); /*subject to change*/
     background-size: 180% 180%;
     animation: gradient-animation 18s ease infinite;
 }
-.gradient_background_dark_mode {
-    color: whitesmoke;
-    background: linear-gradient(300deg, #3c224d, #313866, #293749, #29214e);
-    background-size: 180% 180%;
-    animation: gradient-animation 18s ease infinite;
+@keyframes gradient-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 header {
     height: 150px;
@@ -40,17 +51,6 @@ header {
 .heading > p {
     font-size: 20px;  
 }
-@keyframes gradient-animation {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
 .themeBtn{
     width: 25px; 
     height: 25px; 
@@ -64,7 +64,7 @@ header {
     cursor: pointer;
     opacity: 80%;
 } 
-.light_mode_modification{
+.dark_mode_modification{
     width: 31px;
     height: 31px;
     margin: 12.5px 12.5px 0px 0px;
@@ -143,29 +143,33 @@ header {
     justify-content: space-between;
     border: 1px solid gray;
     border-radius: 5px;
-    background-color: white;           /* background-color: inherit; */
+    background-color: #374151;
     margin: 5px;
-    
 }
-.container.dark_mode {
-    background-color: rgb(55, 65, 81);
+.container.light_mode {
+    background-color: whitesmoke;
 }
 .formLabel {
     width: 100%;
+    border-radius: 5px;        
 }
 .formLabel:hover {
-    cursor: pointer;                   /* background-color: #433580; */
+    cursor: pointer;           
+    background-color: #293749;
     opacity: 80%;
+}
+.formLabel.light_mode:hover{
+    background-color: ghostwhite;
 }
 .formLabel > label {
     font-size: 25px;
     padding-left: 15px;
     width: inherit;
 }
-.formLabel>label, input[type=checkbox] {
+.formLabel > label, input[type=checkbox] {
     pointer-events: none;
 }
-.isChecked{
+.isChecked {
     text-decoration: line-through;
 }
 .removeBtn {

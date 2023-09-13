@@ -4,85 +4,91 @@ const date = new Date();
 const date_time = document.getElementById('date_time');
 date_time.innerHTML = dayName[date.getDay()]+', '+monthNames[date.getMonth()]+' '+date.getDate();
 
+// const currentTheme = 'dark_mode';
+
 const body = document.querySelector('body');
 const header = document.querySelector('header');
 const footer = document.querySelector('footer');
-const container = document.querySelectorAll('.container');
 
-function theme(){
-    var currentSrc = themeBtn.getAttribute('src');
-    var currentAltText = themeBtn.getAttribute('alt');
+const themeBtn = document.querySelector("#themeBtn");
+
+function changeTheme(){
     var currentTheme = themeBtn.getAttribute('theme');
-    if (currentTheme==='dark_mode'){
-        currentSrc = './images/img-light-mode.png';
-        currentAltText = 'dark mode on';
-        themeBtn.classList.add('light_mode_modification');
-        header.classList.remove('gradient_background_light_mode');
-        header.classList.add('gradient_background_dark_mode');
-        footer.classList.remove('gradient_background_light_mode');
-        footer.classList.add('gradient_background_dark_mode');
-        body.classList.add('dark_mode');
+    const container = document.querySelectorAll('.container');
+    if (currentTheme === 'dark_mode'){
+        var currentSrc = './images/img-light-mode.png';
+        var currentAltText = 'dark mode on';
+        themeBtn.classList.add('dark_mode_modification');
+        header.classList.remove('light_mode');
+        footer.classList.remove('light_mode');
+        body.classList.remove('light_mode');
         if (container!==null){
             container.forEach(item =>{
-                item.classList.add('dark_mode');
+                item.classList.remove('light_mode');
             });
         }
-    } else {
-        currentSrc = './images/img-dark-mode.png';
-        currentAltText = 'light mode on';
-        themeBtn.classList.remove('light_mode_modification');
-        header.classList.remove('gradient_background_dark_mode');
-        header.classList.add('gradient_background_light_mode');
-        footer.classList.remove('gradient_background_dark_mode');
-        footer.classList.add('gradient_background_light_mode');
-        body.classList.remove('dark_mode');
+    } else if (currentTheme === 'light_mode') {
+        var currentSrc = './images/img-dark-mode.png';
+        var currentAltText = 'light mode on';
+        themeBtn.classList.remove('dark_mode_modification');
+        header.classList.add('light_mode');
+        footer.classList.add('light_mode');
+        body.classList.add('light_mode');
         if (container!==null){
             container.forEach(item =>{
-                item.classList.remove('dark_mode');
+                item.classList.add('light_mode');
             });
         }
     }
     themeBtn.setAttribute('src', currentSrc);
     themeBtn.setAttribute('alt', currentAltText);
-};
+}
 
-window.onload=theme();
+window.onload=changeTheme();
 
-const mainInput =document.querySelector('#mainField');
+themeBtn.addEventListener('click', async function(){
+    const currentURL = window.location.href+'themeChanged';
+    const response = await fetch(currentURL, {method:'POST'});
+    const url = await response.json();
+    if (url) {
+        var theme = themeBtn.getAttribute('theme');
+        if (theme==='dark_mode') {
+            themeBtn.setAttribute('theme', 'light_mode');
+        } else if (theme==='light_mode') {
+            themeBtn.setAttribute('theme', 'dark_mode');
+        }
+        changeTheme();
+    } else {
+        console.log('Internal Server Error');
+    }
+});
+
+const mainInput = document.querySelector('#mainField');
 const tasks = document.querySelector('#tasks');
-mainInput.addEventListener('keyup', function(event){
+mainInput.addEventListener('keyup', async function(event){
     console.log(event.keyCode);
     if (event.keyCode === 13){
         const taskTitle = mainInput.value.trim();
         if (taskTitle!==''){
-            var url;
-            var xhttp = new XMLHttpRequest();
-            var currentURL = window.location.href+'add/'+taskTitle;                            // #, /, %, ., ?, \
-            xhttp.open('POST',currentURL, true);
-            xhttp.onreadystatechange = function() {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    url = JSON.parse(xhttp.responseText);
-                    const index = url.currentIndex;
-                    if (url){
-                        // console.log('nice cock');
-                        tasks.innerHTML+=
-                            `<div class='container visible dark_mode'>
-                                <form class="formLabel" value="${index}" onclick="strikeTask(this);">
-                                    <label><input type='checkbox' value='${index}' style="display: none;"> ${taskTitle}</label>
-                                </form>
-                                <button class='removeBtn' value='${index}' onclick="removeTask(this);">Remove</button>
-                            </div>`
-                        theme();                                                               // Make container follow the theme
-                    } else{
-                        res.render('Internal Server Error');
-                    }
-                }
-            };
-            xhttp.send();
+            var currentURL = window.location.href+'add/'+taskTitle;                                // #, /, %, ., ?, \
+            const response = await fetch(currentURL, {method: 'POST'});
+            const url = await response.json();
+            if (url){
+                const index = url.currentIndex;
+                tasks.innerHTML+=
+                    `<div class='container visible ${url.currentTheme}'>
+                        <form class="formLabel" value="${index}" onclick="strikeTask(this);">
+                            <label><input type='checkbox' value='${index}' style="display: none;"> ${taskTitle}</label>
+                        </form>
+                        <button class='removeBtn' value='${index}' onclick="removeTask(this);">Remove</button>
+                    </div>`
+            } else{
+                res.render('Internal Server Error');
+            }
         }
         mainInput.value='';
     }
-})
+});
 /*
 const popUp = document.querySelector('#popUp');
 const allTasks = document.getElementsByClassName('visible');

@@ -34,9 +34,11 @@ app.get('/', (req,res)=>{
 app.post('/add/:title', (req,res)=>{
     const data = {
         taskName: req.params.title,
-        currentIndex: req.session.array.length
+        currentIndex: req.session.array.length,
+        striked: false
     };
     req.session.array.push(data);
+    Object.assign(data, {currentTheme: req.session.theme});
     res.send(data);
 
     console.log(req.session.array);
@@ -46,11 +48,12 @@ app.post('/crossOut/:id', (req,res)=>{
     let index = req.params.id;
     let obj;
     if (req.session.array[index].striked){
+        req.session.array[index].striked = false;
         obj = {striked: false};
     } else {
+        req.session.array[index].striked = true;
         obj = {striked: true};
     }
-    Object.assign(req.session.array[index], obj);
     res.send(obj);
 
     console.log(req.session.array);
