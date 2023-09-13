@@ -140,23 +140,34 @@ backBtn.addEventListener('click', ()=>{
     });
 });
 
-function strikeTask(label){
-    var url;
-    var xhttp = new XMLHttpRequest();
+async function strikeTask(label){
     var currentURL = window.location.href+'crossOut/'+label.getAttribute('value');
-    xhttp.open('POST', currentURL, true);
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            url = JSON.parse(xhttp.responseText);
-            if (url.striked) {
-                label.children[0].classList.add('isChecked');
-            } else if (!url.striked) {
-                label.children[0].classList.remove('isChecked');
-            }
-        }
-    };
-    xhttp.send();
+    const response = await fetch(currentURL, {method: "POST"});
+    const url = await response.json();
+    if (url.striked) {
+        label.children[0].classList.add('isChecked');
+    } else if (!url.striked) {
+        label.children[0].classList.remove('isChecked');
+    }
+
 }
+// function strikeTask(label){
+//     var url;
+//     var xhttp = new XMLHttpRequest();
+//     var currentURL = window.location.href+'crossOut/'+label.getAttribute('value');
+//     xhttp.open('POST', currentURL, true);
+//     xhttp.onreadystatechange = function() {
+//         if (xhttp.readyState == 4 && xhttp.status == 200) {
+//             url = JSON.parse(xhttp.responseText);
+//             if (url.striked) {
+//                 label.children[0].classList.add('isChecked');
+//             } else if (!url.striked) {
+//                 label.children[0].classList.remove('isChecked');
+//             }
+//         }
+//     };
+//     xhttp.send();
+// }
 
 function removeTask(element){
     var url;
