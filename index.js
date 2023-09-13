@@ -19,13 +19,12 @@ app.use(session({
     saveUninitialized: true
 }));
 
-var array = [1];
-var theme = 'dark_mode';
+var firstVist = true;
 app.get('/', (req,res)=>{
-    req.session.theme = theme;
-    if (array.length === 1){
-        array.pop();
+    if (firstVist){
+        firstVist = false;
         req.session.array = [];
+        req.session.theme = 'dark_mode';
         res.render('home.ejs', {currentTheme: req.session.theme});
     } else{
         res.render('home.ejs', {data: req.session.array, currentTheme: req.session.theme});
@@ -33,10 +32,6 @@ app.get('/', (req,res)=>{
 })
 
 app.post('/add/:title', (req,res)=>{
-    if (array.length===1){
-        array.pop();
-        req.session.array = [];
-    }
     const data = {
         taskName: req.params.title,
         currentIndex: req.session.array.length
@@ -62,16 +57,20 @@ app.post('/crossOut/:id', (req,res)=>{
 });
 
 app.post('/remove/:id', (req,res)=>{
-    req.session.array.splice(req.params.id, 1)
-    res.send('done');
+    const obj = {deleted: false};
+    if (req.session.array.splice(req.params.id, 1)){
+        obj.deleted = true;
+    };
+    res.send(obj);
     
     console.log(req.session.array);
 });
 
 app.post('/themeChanged', (req,res)=>{
-    if (theme==='light_mode') {theme='dark_mode';}
-    else {theme='light_mode';}
-    res.redirect('/');
+    if (req.session.theme==='light_mode') {req.session.theme='dark_mode';}
+    else {req.session.theme='light_mode';}
+    const obj = {currentTheme: req.session.theme};
+    res.send(obj);
 });
 
 app.listen(port, ()=>{
@@ -80,7 +79,7 @@ app.listen(port, ()=>{
 
 /*
 label hover backgroud color
-add JS to all [theme, remove].
+add JS to all [theme].
 work space 
 add reset option
 */

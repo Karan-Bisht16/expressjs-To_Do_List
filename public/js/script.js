@@ -48,12 +48,10 @@ function theme(){
 
 window.onload=theme();
 
-// let i=0;
-// let arrayOfTasks = [];
-
 const mainInput =document.querySelector('#mainField');
 const tasks = document.querySelector('#tasks');
 mainInput.addEventListener('keyup', function(event){
+    console.log(event.keyCode);
     if (event.keyCode === 13){
         const taskTitle = mainInput.value.trim();
         if (taskTitle!==''){
@@ -151,49 +149,26 @@ async function strikeTask(label){
     }
 
 }
-// function strikeTask(label){
-//     var url;
-//     var xhttp = new XMLHttpRequest();
-//     var currentURL = window.location.href+'crossOut/'+label.getAttribute('value');
-//     xhttp.open('POST', currentURL, true);
-//     xhttp.onreadystatechange = function() {
-//         if (xhttp.readyState == 4 && xhttp.status == 200) {
-//             url = JSON.parse(xhttp.responseText);
-//             if (url.striked) {
-//                 label.children[0].classList.add('isChecked');
-//             } else if (!url.striked) {
-//                 label.children[0].classList.remove('isChecked');
-//             }
-//         }
-//     };
-//     xhttp.send();
-// }
 
-function removeTask(element){
-    var url;
-    var xhttp = new XMLHttpRequest();
+async function removeTask(element){
     var currentURL = window.location.href+'remove/'+element.getAttribute('value');
-    xhttp.open('POST', currentURL, true);
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            url = xhttp.responseText;
-            if (url==='done') {
-                const index = element.getAttribute('value');
-                element.parentNode.remove();
-                const allTasks = document.querySelectorAll('.container');
-                allTasks.forEach((task)=>{
-                    if (task.children[0].getAttribute('value')>index){
-                        const form = task.children[0];
-                        form.setAttribute('value', (form.getAttribute('value')-1));
-                        const remove = task.children[1];
-                        remove.setAttribute('value', (remove.getAttribute('value')-1));
-                        const label = form.children[0];
-                        label.setAttribute('value', (label.getAttribute('value')-1));
-                    }
-                });
-
+    const response = await fetch(currentURL, {method: 'POST'});
+    const url = await response.json();
+    if (url.deleted) {
+        const index = element.getAttribute('value');
+        element.parentNode.remove();
+        const allTasks = document.querySelectorAll('.container');
+        allTasks.forEach((task)=>{
+            if (task.children[0].getAttribute('value')>index){
+                const form = task.children[0];
+                form.setAttribute('value', (form.getAttribute('value')-1));
+                const remove = task.children[1];
+                remove.setAttribute('value', (remove.getAttribute('value')-1));
+                const label = form.children[0];
+                label.setAttribute('value', (label.getAttribute('value')-1));
             }
-        }
-    };
-    xhttp.send();
+        })
+    } else {
+        console.log('Internal Server Error');
+    }
 }
