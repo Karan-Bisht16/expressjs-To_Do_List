@@ -82,7 +82,6 @@ app.listen(port, ()=>{
 
 /*
 label hover backgroud color
-add JS to all [theme].
 work space 
 add reset option
 */

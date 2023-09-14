@@ -65,7 +65,7 @@ themeBtn.addEventListener('click', async function(){
 
 const mainInput = document.querySelector('#mainField');
 const tasks = document.querySelector('#tasks');
-mainInput.addEventListener('keyup', async function(event){
+mainInput.addEventListener('keypress', async function(event){
     console.log(event.keyCode);
     if (event.keyCode === 13){
         const taskTitle = mainInput.value.trim();
