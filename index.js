@@ -35,6 +35,7 @@ app.get('/', (req,res)=>{
 
 app.post('/add/:title', (req,res)=>{
     console.log('Executing app.post');
+    req.session.array = req.session.array || [];
     const data = {
         taskName: req.params.title,
         currentIndex: req.session.array.length,
