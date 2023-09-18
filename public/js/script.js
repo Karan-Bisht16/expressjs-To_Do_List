@@ -66,24 +66,28 @@ themeBtn.addEventListener('click', async function(){
 const mainInput = document.querySelector('#mainField');
 const tasks = document.querySelector('#tasks');
 mainInput.addEventListener('keypress', async function(event){
-    console.log(event.keyCode);
+    // console.log(event.keyCode);
     if (event.keyCode === 13){
         const taskTitle = mainInput.value.trim();
         if (taskTitle!==''){
-            var currentURL = window.location.href+'add/'+taskTitle;                                // #, /, %, ., ?, \
-            const response = await fetch(currentURL, {method: 'POST'});
-            const url = await response.json();
-            if (url){
+            const currentURL = window.location.href+'add/'+taskTitle;                                // #, /, %, ., ?, \
+            try {
+                const response = await fetch(currentURL, { method: 'POST' });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const url = await response.json();
                 const index = url.currentIndex;
-                tasks.innerHTML+=
+                tasks.innerHTML +=
                     `<div class='container visible ${url.currentTheme}'>
                         <form class="formLabel" value="${index}" onclick="strikeTask(this);">
                             <label><input type='checkbox' value='${index}' style="display: none;"> ${taskTitle}</label>
                         </form>
                         <button class='removeBtn' value='${index}' onclick="removeTask(this);">Remove</button>
-                    </div>`
-            } else{
-                res.render('Internal Server Error');
+                    </div>`;
+            } catch (error) {
+                console.error('Error:', error);
+                // Handle error, show a message to the user, etc.
             }
         }
         mainInput.value='';
