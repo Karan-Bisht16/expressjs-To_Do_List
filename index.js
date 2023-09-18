@@ -21,9 +21,11 @@ app.use(session({
 
 var firstVist = true;
 app.get('/', (req,res)=>{
+    console.log('Executing app.get');
     if (firstVist){
         firstVist = false;
         req.session.array = [];
+        console.log('Initializing req.session.array:', req.session.array);
         req.session.theme = 'dark_mode';
         res.render('home.ejs', {currentTheme: req.session.theme});
     } else{
@@ -32,6 +34,7 @@ app.get('/', (req,res)=>{
 })
 
 app.post('/add/:title', (req,res)=>{
+    console.log('Executing app.post');
     const data = {
         taskName: req.params.title,
         currentIndex: req.session.array.length,
