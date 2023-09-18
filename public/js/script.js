@@ -71,6 +71,7 @@ mainInput.addEventListener('keypress', async function(event){
         const taskTitle = mainInput.value.trim();
         if (taskTitle!==''){
             const currentURL = window.location.href+'add/'+taskTitle;                                // #, /, %, ., ?, \
+            console.log(currentURL);
             try {
                 const response = await fetch(currentURL, { method: 'POST' });
                 if (!response.ok) {
