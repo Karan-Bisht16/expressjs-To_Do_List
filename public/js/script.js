@@ -66,12 +66,11 @@ themeBtn.addEventListener('click', async function(){
 const mainInput = document.querySelector('#mainField');
 const tasks = document.querySelector('#tasks');
 mainInput.addEventListener('keypress', async function(event){
-    // console.log(event.keyCode);
     if (event.keyCode === 13){
-        const taskTitle = mainInput.value.trim();
+        const title = mainInput.value.trim();
+        const taskTitle = encodeURIComponent(title);
         if (taskTitle!==''){
-            const currentURL = window.location.href+'add/'+taskTitle;                                // #, /, %, ., ?, \
-            console.log(currentURL);
+            const currentURL = window.location.href+'add/'+taskTitle;
             try {
                 const response = await fetch(currentURL, { method: 'POST' });
                 if (!response.ok) {
@@ -82,14 +81,15 @@ mainInput.addEventListener('keypress', async function(event){
                 tasks.innerHTML +=
                     `<div class='container visible ${url.currentTheme}'>
                         <form class="formLabel" value="${index}" onclick="strikeTask(this);">
-                            <label><input type='checkbox' value='${index}' style="display: none;"> ${taskTitle}</label>
+                            <label><input type='checkbox' value='${index}' style="display: none;"> ${decodeURIComponent(taskTitle)}</label>
                         </form>
                         <button class='removeBtn' value='${index}' onclick="removeTask(this);">Remove</button>
                     </div>`;
             } catch (error) {
                 console.error('Error:', error);
-                // Handle error, show a message to the user, etc.
             }
+        } else {
+            console.error('Task title may contain forbidden characters');
         }
         mainInput.value='';
     }

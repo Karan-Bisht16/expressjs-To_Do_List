@@ -21,7 +21,7 @@ app.use(session({
 
 var firstVist = true;
 app.get('/', (req,res)=>{
-    console.log('Executing app.get');
+    console.log("Executing app.get('/')");
     if (firstVist){
         firstVist = false;
         req.session.array = [];
@@ -34,7 +34,7 @@ app.get('/', (req,res)=>{
 })
 
 app.post('/add/:title', (req,res)=>{
-    console.log('Executing app.post');
+    console.log("Executing app.post('/add/:title')");
     req.session.array = req.session.array || [];
     const data = {
         taskName: req.params.title,
@@ -42,6 +42,7 @@ app.post('/add/:title', (req,res)=>{
         striked: false
     };
     req.session.array.push(data);
+    console.log("data"+req.session.array);
     Object.assign(data, {currentTheme: req.session.theme});
     res.send(data);
 
@@ -49,6 +50,7 @@ app.post('/add/:title', (req,res)=>{
 })
 
 app.post('/crossOut/:id', (req,res)=>{
+    console.log("Executing app.post('/crossOut/:id')");
     let index = req.params.id;
     let obj;
     if (req.session.array[index].striked){
@@ -59,11 +61,12 @@ app.post('/crossOut/:id', (req,res)=>{
         obj = {striked: true};
     }
     res.send(obj);
-
+    
     console.log(req.session.array);
 });
 
 app.post('/remove/:id', (req,res)=>{
+    console.log("Executing app.post('/remove/:id')");
     const obj = {deleted: false};
     if (req.session.array.splice(req.params.id, 1)){
         obj.deleted = true;
@@ -74,6 +77,7 @@ app.post('/remove/:id', (req,res)=>{
 });
 
 app.post('/themeChanged', (req,res)=>{
+    console.log("Executing app.post('/themeChanged')");
     if (req.session.theme==='light_mode') {req.session.theme='dark_mode';}
     else {req.session.theme='light_mode';}
     const obj = {currentTheme: req.session.theme};
