@@ -40,7 +40,7 @@ function changeTheme(){
             });
         }
     }
-    if (currentTheme!==undefined){
+    if (currentTheme!='undefined'){
         themeBtn.setAttribute('src', currentSrc);
         themeBtn.setAttribute('alt', currentAltText);
     }
