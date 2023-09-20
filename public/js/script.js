@@ -40,8 +40,10 @@ function changeTheme(){
             });
         }
     }
-    themeBtn.setAttribute('src', currentSrc);
-    themeBtn.setAttribute('alt', currentAltText);
+    if (currentTheme!==undefined){
+        themeBtn.setAttribute('src', currentSrc);
+        themeBtn.setAttribute('alt', currentAltText);
+    }
 }
 
 window.onload=changeTheme();

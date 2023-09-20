@@ -133,11 +133,11 @@ header {
 }
 .tasks {
     width: 98%;
-    padding: 5px 20px 50px 0px;        /* padding-right: 20px; */
+    padding: 5px 5px 50px 0px;        /* padding-right: 20px; */
     margin: 0 auto;
 }
 .container {
-    width: 100%;
+    width: 98%;
     height: 35px;
     display: flex;
     justify-content: space-between;
@@ -158,8 +158,8 @@ header {
     background-color: #293749;
     opacity: 80%;
 }
-.formLabel.light_mode:hover{
-    background-color: ghostwhite;
+.container.light_mode > .formLabel:hover{
+    background-color: gainsboro;
 }
 .formLabel > label {
     font-size: 25px;
@@ -208,6 +208,9 @@ header {
 }
 footer {
     height: 20vh;
+    width: 100%;
+    position: absolute;
+    bottom: 0%;
 }
 .contact > p {
     padding: 20px 0 10px 20px;
