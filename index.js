@@ -28,6 +28,7 @@ app.get('/', (req,res)=>{
         req.session.array = [];
         console.log('Initializing req.session.array:', req.session.array);
         req.session.theme = 'dark_mode';
+        console.log("Initializing req.session.theme:", req.session.theme);
         res.render('home.ejs', {currentTheme: req.session.theme});
     } else{
         res.render('home.ejs', {data: req.session.array, currentTheme: req.session.theme});
