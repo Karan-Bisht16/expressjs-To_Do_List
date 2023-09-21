@@ -104,6 +104,8 @@ function printData(array){
 label hover backgroud color
 work space 
 add reset option
+search popup 
+invalid character popup
 https://developer.chrome.com/docs/devtools/remote-debugging/
 https://stackoverflow.com/questions/71233195/failed-to-load-resource-the-server-responded-with-a-status-of-500-in-when-de
 https://www.reddit.com/r/webdev/comments/jrwa42/whats_the_difference_between_xmlhttp_http_ajax/?rdt=53378
