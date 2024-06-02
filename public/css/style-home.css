@@ -1,0 +1,65 @@
+/* Styling for main section */
+.main {
+    width: 98%;
+    margin: 20px auto 150px auto;
+    background-color: var(--secondary-background-color);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    border: 1px solid gray;
+    border-radius: 10px;
+}
+
+.list-heading {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 20px;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+    background-color: var(--secondary-accent-color);
+}
+
+.active-title {
+    font-weight: bolder;
+}
+
+.active-addn-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 50px;
+}
+
+.active-addn-info>p {
+    margin: 0;
+}
+
+.lower-section {
+    padding: 15px 20px;
+}
+
+.list-content {
+    min-height: 100px;
+}
+
+.list-content>p {
+    margin: 50px auto;
+    text-align: center;
+}
+
+.task>label.form-control {
+    color: var(--text-color);
+    text-decoration: line-through;
+    background-color: var(--secondary-accent-color);
+}
+
+.task>label.form-control.active-task {
+    text-decoration: none;
+    background-color: var(--ternary-background-color);
+}
+
+.task>label.form-control:hover {
+    cursor: pointer;
+}
+
+#add-task-field {
+    background-color: whitesmoke;
+}

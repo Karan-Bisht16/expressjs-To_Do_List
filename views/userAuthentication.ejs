@@ -1,0 +1,87 @@
+<%- include("./partials/header.ejs") %>
+
+    <link rel="stylesheet" type="text/css" href="/css/style-userAuthentication.css">
+
+    <div class="wrapper">
+        <!-- Login -->
+        <div class="form-box login">
+            <h2>Login</h2>
+            <form action="/login" onsubmit="return loginValidation()" method="post">
+                <div class="input-box">
+                    <div class="box">
+                        <div class="entry-area">
+                            <input id="login-email" type="text" name="userEmail" class="input" autofocus required>
+                            <div class="label-line">Enter e-mail</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-box">
+                    <div class="box">
+                        <div class="entry-area">
+                            <input id="user-login-password" type="password" name="userPassword" class="input" required>
+                            <div class="label-line">Enter password</div>
+                            <button id="show-login-password" type="button">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="forgot-password">
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+                <div class="login-register">
+                    <p>Don't have an account? <a href="#" class="login-link">Register</a></p>
+                </div>
+            </form>
+        </div>
+        <!-- Register -->
+        <div class="form-box register">
+            <h2>Register</h2>
+            <form action="/register" onsubmit="return registrationValidation()" method="post">
+                <div class="input-box">
+                    <div class="box">
+                        <div class="entry-area">
+                            <input type="text" name="username" class="input" autofocus required>
+                            <div class="label-line">Enter username</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-box">
+                    <div class="box">
+                        <div class="entry-area">
+                            <input id="register-email" type="text" name="userEmail" class="input" required>
+                            <div class="label-line">Enter e-mail</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-box">
+                    <div class="box">
+                        <div class="entry-area">
+                            <input id="user-register-password" type="password" name="userPassword" class="input" required>
+                            <div class="label-line">Enter password</div>
+                            <button id="show-register-password" type="button">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="terms-n-condition">
+                    <label><input type="checkbox" required> I agree to the terms & conditions </label>
+                </div>
+                <button type="submit" class="submit-btn">Register</button>
+                <div class="login-register">
+                    <p>Already have an account? <a href="#" class="register-link">Login</a></p>
+                </div>
+            </form>
+        </div>
+        <!-- Error -->
+        <p class="fixed-bottom error"></p>
+        <% if (locals.error) { %>
+            <p class="fixed-bottom error server-side-error"><%- error %></p>
+        <% } %>
+    </div>
+
+    <script src="/js/script-userAuthentication.js"></script>
+
+<%- include("./partials/footer.ejs") %>

@@ -1,0 +1,44 @@
+<%- include("./partials/header.ejs") %>
+
+    <link rel="stylesheet" type="text/css" href="/css/style-home.css">
+
+    <p id="is-logged-in" style="display: none" value="<%= loggedIn %>"></p>
+    <!-- All Tasks -->
+    <div class="main">
+        <div class="list-heading">
+            <h1 class="active-title"></h1>
+            <div class="active-addn-info">
+                <p><span class="active-tasks-info"></span> remaining</p>
+            </div>
+        </div>
+        <div class="lower-section">
+            <div id="tasks" class="list-content">
+                <% if (locals.tasks) { %>
+                        <% tasks.forEach(task=>{ %>
+                            <div class="task d-flex mt-2">
+                                <% if (task.is_Checked) { %>
+                                    <label class="form-control me-2" value="<%= task["_id"] %>" onclick="strikeTask(this)">
+                                <% } else { %>
+                                    <label class="active-task form-control me-2" value="<%= task["_id"] %>" onclick="strikeTask(this)">
+                                <% } %>
+                                    <input type="checkbox" style="display: none;"><%= task["task_name"] %>
+                                </label>
+                                <button class="primary-toggle btn edit-btn btn-outline-primary me-2" value="<%= task["_id"] %>" onclick="editTask(this);">Edit</button>
+                                <button class="primary-toggle btn remove-btn btn-outline-primary" value="<%= task["_id"] %>" onclick="removeTask(this);">Remove</button>
+                            </div>
+                        <% }); %>
+                <% } else { %>
+                    <p class="if-empty">Add something spicy to your list</p>
+                <% } %>
+            </div>
+    
+            <form class="d-flex mt-4" role="search" onsubmit="addTask()">
+                <input id="add-task-field" class="form-control me-2" placeholder="+ Add a new task" aria-label="Search" autofocus>
+                <button class="primary-toggle btn btn-outline-primary" type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/script-home.js"></script> 
+
+<%- include("./partials/footer.ejs") %>

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A basic to-do list made using express.js",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,9 +11,15 @@
   "author": "Karan-Bisht16",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.2",
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^5.1.0",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.4.0",
     "morgan": "^1.10.0"
   }
 }

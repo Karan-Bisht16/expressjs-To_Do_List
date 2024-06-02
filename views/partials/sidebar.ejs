@@ -1,0 +1,105 @@
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
+    aria-labelledby="offcanvasNavbarLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">QuickList</h5>
+        <button type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+            <i class="fa-solid fa-xmark close-btn"></i>
+        </button>
+    </div>
+    <div class="offcanvas-body">
+        <ul id="lists" class="navbar-nav justify-content-end flex-grow-1">
+            <% if (locals.lists) { %>
+                <% lists.forEach(list=>{ %>
+                    <li class="nav-item list d-flex">
+                        <% if (currentListID == list["_id"]) { %>
+                            <label class="nav-link active-list form-control me-2" aria-current="page"
+                                value="<%= list["_id"] %>" onclick="changeList(this)"><%= list["list_name"] %></label>
+                        <% } else { %>
+                            <label class="nav-link form-control me-2" aria-current="page"
+                                value="<%= list["_id"] %>" onclick="changeList(this)"><%= list["list_name"] %></label>
+                        <% } %>
+                        <button type="button" class="btn btn-outline-primary mt-1 me-1" data-bs-toggle="modal" data-bs-target="#renameListModal"
+                            value="<%= list["_id"] %>" onclick="renameListModal(this)">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" 
+                            value="<%= list["_id"] %>" onclick="deleteListModal(this)">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </li>
+                <% }) %>
+            <% } else { %>
+                <li class="nav-item list d-flex mt-4">
+                    <label class="nav-link active-list form-control me-2" aria-current="page" value="null">Home</label>
+                    <button type="button" class="btn btn-outline-primary mt-1 me-1" data-bs-toggle="modal" data-bs-target="#editListModal">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </li>
+            <% } %>
+        </ul>
+        <div class="add-list-section">
+            <form class="d-flex mt-5" role="search" onsubmit="addList()">
+                <input id="add-list-field" class="form-control me-2" type="search" placeholder="+ Add a list" aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 fw-bold" id="deleteModalLabel">Delete List?</h1>
+                <button id="delete-list-close-btn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                The entire list including tasks within will be deleted. 
+            </div>
+            <div class="modal-footer" style="border: none;">
+                <button type="button" class="secondary-toggle btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="confirm-delete" type="button" class="btn btn-danger" onclick="deleteList(this)">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- At Least Modal -->
+<div class="modal fade" id="atleastModal" tabindex="-1" aria-labelledby="atleastModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 fw-bold" id="atleastModalLabel">Minimum requirement</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                At least one list is required.
+            </div>
+            <div class="modal-footer" style="border: none;">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit List Modal -->
+<div class="modal fade" id="renameListModal" tabindex="-1" aria-labelledby="renameListModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 fw-bold" id="renameListModalLabel">Rename</h1>
+                <button id="rename-list-close-btn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <input id="rename-list-title" type="text" class="form-control" id="message-text">
+                </div>
+            </div>
+            <div class="modal-footer" style="border: none;">
+                <button type="button" class="secondary-toggle btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="rename-list" type="submit" class="btn btn-danger" onclick="renameList(this)">Rename</button>
+            </div>
+        </div>
+    </div>
+</div>

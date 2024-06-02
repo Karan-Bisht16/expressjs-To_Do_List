@@ -1,56 +1,38 @@
-* {
-    margin: 0px;
-    padding: 0px;
-    font-family:  'Jost', sans-serif;
-}
-body {
-    color: whitesmoke;
-    background-color: #1a212e;
-}
-body.light_mode {
-    color: black;
-    background-color: whitesmoke;      /* opacity: 10%; */
-}
-.gradient_background {
-    /* color: whitesmoke; */
-    background: linear-gradient(300deg, #3c224d, #313866, #293749, #29214e);
-    background-size: 180% 180%;
-    animation: gradient-animation 18s ease infinite;
-}
-.gradient_background.light_mode {
-    color: black;
-    background: linear-gradient(300deg, #eaf9e6, #D1E4D1, #98B4A6, #64868E); /*subject to change*/
-    background-size: 180% 180%;
-    animation: gradient-animation 18s ease infinite;
-}
-@keyframes gradient-animation {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-header {
-    height: 15vh;
-    display: flex;
-    justify-content: space-between;
-}
-.heading {
-    padding: 15px 10px;
-    align-self: flex-end;
-}
-.heading > h1 {
-    font-size: 45px; 
-    font-weight: lighter;
-    font-family: Arial, Helvetica, sans-serif; 
-}
-.heading > p {
-    font-size: 20px;  
-}
+/* 
+edit task
+edit profile 
+if not logged in [save draft-task in req.session.tasks and then when login save all that data {userAuthentication.js -> /register}]
+    Case 1: use isLoggedIn() so that for not logged in user it is fast
+    Case 2: scrap isLoggedIn() and let data persist when user decides to login
+forgot password [nodemailer]
+*/
+/* https://drive.google.com/drive/folders/1ozEHbdo9AbLOS4d1mTfE5dy3e36-s-8a */
+/* 
+inside header.ejs
+    
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Dropdown
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+    </li>
+        
+    <form class="d-flex mt-3" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>  
+*/
+
+
+/* 
 .themeBtn{
     width: 25px; 
     height: 25px; 
@@ -83,7 +65,7 @@ header {
     font-size: 20px;
     width: 100%;
     height: 42px;
-    margin-left: 2px;                  /* padding-left: 10px; */
+    margin-left: 2px;
     padding: 1px 1px 1px 10px;
     border: 2px solid gray;
     border-radius: 5px;
@@ -133,7 +115,7 @@ header {
 }
 .tasks {
     width: 98%;
-    padding: 5px 5px 50px 0px;        /* padding-right: 20px; */
+    padding: 5px 5px 50px 0px;
     margin: 0 auto;
 }
 .container {
@@ -206,24 +188,8 @@ header {
     position: relative;
     top: -40px;
 }
-footer {
-    height: 20vh;
-    width: 100%;
-    position: relative;
-    bottom: 0%;
-}
-.contact > p {
-    padding: 20px 0 10px 20px;
-    color: inherit;
-    font-size: 25px;
-} 
-.links {
-    display: flex;
-    gap: 10px;
-    padding: 0px 20px;
-}
 
-/* @media (max-width: 600px) {
+@media (max-width: 600px) {
     header, footer{
         height: 10vh;
     }
@@ -231,4 +197,6 @@ footer {
         min-height: 80vh;
     }
     
-} */
+} 
+
+*/

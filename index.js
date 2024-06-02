@@ -1,104 +1,125 @@
-import express from "express";
-import session from "express-session";
-import { dirname } from "path"
-import { fileURLToPath } from "url";
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const path = require("path")
+const express = require("express");
+const session = require("express-session");
+require("dotenv").config();
+var methodOverride = require("method-override");
 
 const app = express();
-const port = 1600;
+const PORT = 1600;
 
+app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use(methodOverride("_method"));
 
 app.use(express.static(__dirname+'/public'));
 app.set('view engine', 'ejs');
-app.set('views', __dirname+'/views');
+app.set('views', path.join(__dirname, "views"));
+
+const mongoose = require("mongoose");
+const connection = require("./database");
+connection();
+
+const MongoStore = require("connect-mongo");
+const mongoStore = MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    collectionName: "sessions",
+    mongooseConnection: mongoose.connection,
+});
 
 app.use(session({
-    secret: 'your-secret-key',
+    secret: process.env.SessionSecret,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: mongoStore,
 }));
 
-var firstVist = true;
-app.get('/', (req,res)=>{
-    console.log("Executing app.get('/')");
+const home = require("./routes/home");
+app.use(home);
+const profile = require("./routes/profile");
+app.use(profile);
+const userAuthentication = require("./routes/userAuthentication");
+app.use(userAuthentication);
 
-    if (firstVist){
-        firstVist = false;
-        req.session.array = [];
-        console.log('Initializing req.session.array:', req.session.array);
-        req.session.theme = 'dark_mode';
-        console.log("Initializing req.session.theme:", req.session.theme);
-        res.render('home.ejs', {currentTheme: req.session.theme});
-    } else{
-        res.render('home.ejs', {data: req.session.array, currentTheme: req.session.theme});
-    }
-})
+app.listen(PORT, ()=>{
+    console.log(`Server starting on port ${PORT}.`);
+});
 
-app.post('/add/:title', (req,res)=>{
-    console.log("Executing app.post('/add/:title')");
+// var firstVist = true;
+// app.get('/', (req,res)=>{
+//     console.log("Executing app.get('/')");
 
-    req.session.array = req.session.array || [];
-    const data = {
-        taskName: req.params.title,
-        currentIndex: req.session.array.length,
-        striked: false
-    };
-    req.session.array.push(data);
+//     if (firstVist){
+//         firstVist = false;
+//         req.session.array = [];
+//         console.log('Initializing req.session.array:', req.session.array);
+//         req.session.theme = 'dark_mode';
+//         console.log("Initializing req.session.theme:", req.session.theme);
+//         res.render('home.ejs', {currentTheme: req.session.theme});
+//     } else{
+//         res.render('home.ejs', {data: req.session.array, currentTheme: req.session.theme});
+//     }
+// })
 
-    Object.assign(data, {currentTheme: req.session.theme});
-    res.send(data);
+// app.post('/add/:title', (req,res)=>{
+//     console.log("Executing app.post('/add/:title')");
 
-    printData(req.session.array);
-})
+//     req.session.array = req.session.array || [];
+//     const data = {
+//         taskName: req.params.title,
+//         currentIndex: req.session.array.length,
+//         striked: false
+//     };
+//     req.session.array.push(data);
 
-app.post('/crossOut/:id', (req,res)=>{
-    console.log("Executing app.post('/crossOut/:id')");
+//     Object.assign(data, {currentTheme: req.session.theme});
+//     res.send(data);
 
-    let index = req.params.id;
-    let obj;
-    if (req.session.array[index].striked){
-        req.session.array[index].striked = false;
-        obj = {striked: false};
-    } else {
-        req.session.array[index].striked = true;
-        obj = {striked: true};
-    }
-    res.send(obj);
+//     printData(req.session.array);
+// })
+
+// app.post('/crossOut/:id', (req,res)=>{
+//     console.log("Executing app.post('/crossOut/:id')");
+
+//     let index = req.params.id;
+//     let obj;
+//     if (req.session.array[index].striked){
+//         req.session.array[index].striked = false;
+//         obj = {striked: false};
+//     } else {
+//         req.session.array[index].striked = true;
+//         obj = {striked: true};
+//     }
+//     res.send(obj);
     
-    printData(req.session.array);
-});
+//     printData(req.session.array);
+// });
 
-app.post('/remove/:id', (req,res)=>{
-    console.log("Executing app.post('/remove/:id')");
+// app.post('/remove/:id', (req,res)=>{
+//     console.log("Executing app.post('/remove/:id')");
 
-    const obj = {deleted: false};
-    if (req.session.array.splice(req.params.id, 1)){
-        obj.deleted = true;
-    };
-    res.send(obj);
+//     const obj = {deleted: false};
+//     if (req.session.array.splice(req.params.id, 1)){
+//         obj.deleted = true;
+//     };
+//     res.send(obj);
     
-    printData(req.session.array);
-});
+//     printData(req.session.array);
+// });
 
-app.post('/themeChanged', (req,res)=>{
-    console.log("Executing app.post('/themeChanged')");
+// app.post('/themeChanged', (req,res)=>{
+//     console.log("Executing app.post('/themeChanged')");
 
-    if (req.session.theme==='light_mode') {req.session.theme='dark_mode';}
-    else {req.session.theme='light_mode';}
-    const obj = {currentTheme: req.session.theme};
-    res.send(obj);
-});
+//     if (req.session.theme==='light_mode') {req.session.theme='dark_mode';}
+//     else {req.session.theme='light_mode';}
+//     const obj = {currentTheme: req.session.theme};
+//     res.send(obj);
+// });
 
-app.listen(port, ()=>{
-    console.log(`Server starting on port ${port}.`);
-});
-
-function printData(array){
-    array.forEach(object => {
-        console.log(object.taskName+", "+object.currentIndex+", "+object.striked);
-    });
-}
+// function printData(array){
+//     array.forEach(object => {
+//         console.log(object.taskName+", "+object.currentIndex+", "+object.striked);
+//     });
+// }
 
 /*
 label hover backgroud color

@@ -1,0 +1,25 @@
+/* To hide navbar-toggler */
+.container-fluid>.navbar-toggler {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Styling for main container */
+.container {
+    margin: 15px auto 50px auto;
+}
+
+.form-label {
+    margin: 0;
+}
+
+.container h4 {
+    font-weight: bold;
+}
+
+/* Styling for error message */
+.error {
+    font-weight: bold;
+    padding-left: 40px;
+    color: var(--error-text-color);
+}

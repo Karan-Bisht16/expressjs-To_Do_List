@@ -1,0 +1,104 @@
+<%- include("./partials/header.ejs") %>
+
+    <link rel="stylesheet" type="text/css" href="/css/style-profile.css">
+
+    <div class="container">
+        <!-- Edit Profile -->
+        <div class="col-md-10 col-lg-8 mt-4">
+            <h4 class="mb-3">Edit profile</h4>
+            <form class="needs-validation">
+                <div class="row g-2">
+                    <div class="col-sm-12">
+                        <label for="userName" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="userName" name="userName">
+                    </div>
+
+                    <div class="col-sm-12">
+                        <label for="userEmail" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="userEmail" name="userEmail">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- Change Password -->
+        <div class="col-md-10 col-lg-8 mt-5">
+            <h4 class="mb-3">Change password</h4>
+            <hr>
+            <form class="needs-validation">
+                <div class="row g-2">
+                    <div class="col-sm-12">
+                        <label for="currentUserPassword" class="form-label">Current password</label>
+                        <input type="text" class="form-control" id="currentUserPassword" name="currentUserPassword">
+                    </div>
+
+                    <div class="col-sm-12">
+                        <label for="newUserPassword" class="form-label">New password</label>
+                        <input type="text" class="form-control" id="newUserPassword" name="newUserPassword">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- Account Management -->
+        <div class="col-md-10 col-lg-8 mt-5">
+            <button type="button" class="secondary-toggle btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                Logout
+            </button>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                Delete account
+            </button>
+            <hr>
+        </div>
+    </div>
+    <!-- Error -->
+    <p class="fixed-bottom error"></p>
+    <% if (locals.error) { %>
+        <p class="fixed-bottom error server-side-error"><%- error %></p>
+    <% } %>
+    <!-- Logout Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 fw-bold" id="logoutModalLabel">Logout?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    You will be logged out of your account. Your data will be retained and you can access it
+                    again by signing in.
+                </div>
+                <div class="modal-footer" style="border: none;">
+                    <button type="button" class="secondary-toggle btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form action="/logout">
+                        <button id="confirm-delete" type="submit" class="btn btn-danger">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Modaal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 fw-bold" id="deleteModalLabel">Delete account?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Once you delete your account, there is no going back. Please be certain.
+                </div>
+                <div class="modal-footer" style="border: none;">
+                    <button type="button" class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">Cancel</button>
+                    <form action="/delete/<%= ID %>?_method=DELETE" method="POST">
+                        <button id="confirm-delete" type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/script-profile.js"></script>
+
+<%- include("./partials/footer.ejs") %>
