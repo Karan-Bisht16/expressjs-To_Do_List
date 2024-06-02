@@ -18,6 +18,12 @@ function updateCounter() {
         string = " task ";
     }
     taskInfo.textContent = allTasks.length + string;
+    let tasks = document.querySelectorAll(".task");
+    if (tasks.length === 0) {
+        try {
+            document.getElementById("tasks").innerHTML = `<p class="if-empty">Add something spicy to your list</p>`;
+        } catch (error) { }
+    }
 }
 updateCounter();
 
@@ -33,7 +39,6 @@ async function addTask() {
     const newTaskTitle = newTask.value.trim()
     if (newTaskTitle !== "") {
         let currentURL = window.location.href + "add-task";
-        // if (isLoggedIn()) {
         try {
             const response = await fetch(currentURL, {
                 method: "PUT",
@@ -49,14 +54,37 @@ async function addTask() {
                 alert("Network error. Please refresh.");
             } else {
                 const decodedResponse = await response.json();
-                tasks.innerHTML +=
-                    `<div class="task d-flex mt-2">
-                        <label class="active-task form-control me-2" value="${decodedResponse.taskID}" onclick="strikeTask(this)">
-                            <input type="checkbox" style="display: none;">${newTaskTitle}
-                        </label>
-                        <button type="button" class="primary-toggle btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editTaskModal" value="${decodedResponse.taskID}" onclick="editTaskModal(this)">Edit</button>
-                        <button class="primary-toggle btn btn-outline-primary" value="${decodedResponse.taskID}" onclick="removeTask(this)">Remove</button>
-                    </div>`;
+                if (document.body.classList.contains("dark")) {
+                    tasks.innerHTML +=
+                        `<div class="task d-flex mt-2">
+                            <label class="active-task form-control me-2" value="${decodedResponse.taskID}" onclick="strikeTask(this)">
+                                <input type="checkbox" style="display: none;">${newTaskTitle}
+                            </label>
+                            <button type="button" class="primary-toggle edit-btn btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editTaskModal" value="${decodedResponse.taskID}" onclick="editTaskModal(this)">
+                                <span>Edit</span>
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                            <button class="primary-toggle remove-btn btn btn-primary" value="${decodedResponse.taskID}" onclick="removeTask(this)">
+                                <span>Remove</span>
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>`;
+                } else {
+                    tasks.innerHTML +=
+                        `<div class="task d-flex mt-2">
+                            <label class="active-task form-control me-2" value="${decodedResponse.taskID}" onclick="strikeTask(this)">
+                                <input type="checkbox" style="display: none;">${newTaskTitle}
+                            </label>
+                            <button type="button" class="primary-toggle edit-btn btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editTaskModal" value="${decodedResponse.taskID}" onclick="editTaskModal(this)">
+                                <span>Edit</span>
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                            <button class="primary-toggle remove-btn btn btn-outline-primary" value="${decodedResponse.taskID}" onclick="removeTask(this)">
+                                <span>Remove</span>
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>`;
+                }
                 try {
                     document.querySelector(".if-empty").style.display = "none";
                 } catch (error) { }
@@ -65,20 +93,6 @@ async function addTask() {
         } catch (error) {
             console.log("Error in /add-task:", error);
         }
-        // } else {
-        //     tasks.innerHTML +=
-        //         `<div class="task d-flex mt-2">
-        //             <label class="active-task form-control me-2" value=null onclick="strikeTask(this)">
-        //                 <input type="checkbox" style="display: none;">${value}
-        //             </label>
-        //             <button class="btn btn-outline-primary me-2" value=null onclick="editTask(this)">Edit</button>
-        //             <button class="btn btn-outline-primary" value=null onclick="removeTask(this)">Remove</button>
-        //         </div>`;
-        //     try {
-        //         document.querySelector(".if-empty").style.display = "none";
-        //     } catch (error) {}
-        //     updateCounter();
-        // }
     }
     newTask.value = "";
 }

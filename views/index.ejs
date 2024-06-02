@@ -23,11 +23,24 @@
                                 <% } %>
                                     <input type="checkbox" style="display: none;"><%- task["task_name"] %>
                                 </label>
-                                <button type="button" class="primary-toggle btn btn-outline-primary me-2" data-bs-toggle="modal" 
-                                    data-bs-target="#editTaskModal" value="<%= task["_id"] %>" onclick="editTaskModal(this)">
-                                    Edit
+                                <% if (theme) { %>
+                                    <button type="button" class="primary-toggle edit-btn btn btn-primary me-2" data-bs-toggle="modal" 
+                                        data-bs-target="#editTaskModal" value="<%= task["_id"] %>" onclick="editTaskModal(this)">
+                                <% } else { %>
+                                    <button type="button" class="primary-toggle edit-btn btn btn-outline-primary me-2" data-bs-toggle="modal" 
+                                        data-bs-target="#editTaskModal" value="<%= task["_id"] %>" onclick="editTaskModal(this)">
+                                <% } %>
+                                        <span>Edit</span>
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                <% if (theme) { %>
+                                    <button class="primary-toggle remove-btn btn btn-primary" value="<%= task["_id"] %>" onclick="removeTask(this);">
+                                <% } else { %>
+                                    <button class="primary-toggle remove-btn btn btn-outline-primary" value="<%= task["_id"] %>" onclick="removeTask(this);">
+                                <% } %>
+                                    <span>Remove</span>
+                                    <i class="fa-solid fa-trash-can"></i>
                                 </button>
-                                <button class="primary-toggle btn btn-outline-primary" value="<%= task["_id"] %>" onclick="removeTask(this);">Remove</button>
                             </div>
                         <% }); %>
                 <% } else { %>
@@ -37,7 +50,11 @@
     
             <form class="d-flex mt-4" role="search" onsubmit="addTask()">
                 <input id="add-task-field" class="form-control me-2" placeholder="+ Add a new task" aria-label="Search" autofocus>
-                <button class="primary-toggle btn btn-outline-primary" type="submit">Add</button>
+                <% if (theme) { %>
+                    <button class="primary-toggle btn btn-primary" type="submit">Add</button>
+                <% } else { %>
+                    <button class="primary-toggle btn btn-outline-primary" type="submit">Add</button>
+                <% } %>
             </form>
         </div>
     </div>

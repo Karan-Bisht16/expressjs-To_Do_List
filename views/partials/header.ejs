@@ -41,12 +41,10 @@
                 <p id="date-time"></p>
             </div>
             <% if (locals.name) { %>
-                <div class="account">
+                <a class="account" href="/profile/<%= ID %>">
                     <i class="fa-regular fa-user"></i>
-                    <a href="/profile/<%= ID %>">
-                        <%= name %>
-                    </a>
-                </div>
+                    <p><%= name %></p>
+                </a>
             <% } else { %>
                 <a class="account" href="/login">
                     <i class="fa-regular fa-user"></i>

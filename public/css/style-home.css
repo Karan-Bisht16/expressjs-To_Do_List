@@ -65,6 +65,39 @@
     cursor: pointer;
 }
 
+.edit-btn>i,
+.remove-btn>i {
+    display: none;
+}
+
 #add-task-field {
     background-color: whitesmoke;
+}
+
+@media (max-width: 600px) {
+    .active-addn-info {
+        padding-right: 0 !important;
+    }
+
+    .edit-btn>i,
+    .remove-btn>i {
+        display: inline-block;
+    }
+
+    .edit-btn>span,
+    .remove-btn>span {
+        display: none;
+    }
+
+    .list-heading {
+        padding: 5px;
+    }
+
+    .list-heading>.active-title {
+        margin: 0;
+    }
+
+    .lower-section {
+        padding: 5px;
+    }
 }

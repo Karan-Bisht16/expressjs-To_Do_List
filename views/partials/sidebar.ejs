@@ -89,7 +89,11 @@
                 The entire list including tasks within will be deleted. 
             </div>
             <div class="modal-footer" style="border: none;">
-                <button type="button" class="secondary-toggle btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <% if (theme) { %>
+                    <button type="button" class="secondary-toggle btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <% } else { %>
+                    <button type="button" class="secondary-toggle btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <% } %>
                 <button id="confirm-delete" type="button" class="btn btn-danger" onclick="deleteList(this)">Delete</button>
             </div>
         </div>
@@ -126,7 +130,11 @@
                 </div>
             </div>
             <div class="modal-footer" style="border: none;">
-                <button type="button" class="secondary-toggle btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <% if (theme) { %>
+                    <button type="button" class="secondary-toggle btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <% } else { %>
+                    <button type="button" class="secondary-toggle btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <% } %>
                 <button id="rename-list" type="submit" class="btn btn-danger" onclick="renameList(this)">Rename</button>
             </div>
         </div>

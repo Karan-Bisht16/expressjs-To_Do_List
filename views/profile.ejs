@@ -48,7 +48,11 @@
         <div class="col-md-10 col-lg-8 mt-5">
             <h4 class="mb-3">Account settings</h4>
             <hr>
-            <button type="button" class="secondary-toggle btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#logoutModal">
+            <% if (theme) { %>
+                <button type="button" class="secondary-toggle btn btn-secondary" data-bs-toggle="modal" data-bs-target="#logoutModal">
+            <% } else { %>
+                <button type="button" class="secondary-toggle btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#logoutModal">
+            <% } %>
                 Logout
             </button>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
@@ -74,7 +78,11 @@
                     again by signing in.
                 </div>
                 <div class="modal-footer" style="border: none;">
-                    <button type="button" class="secondary-toggle btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <% if (theme) { %>
+                        <button type="button" class="secondary-toggle btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <% } else { %>
+                        <button type="button" class="secondary-toggle btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <% } %>
                     <form action="/logout">
                         <button id="confirm-logout" type="submit" class="btn btn-danger">Logout</button>
                     </form>
@@ -95,7 +103,11 @@
                     Once you delete your account, there is no going back. Please be certain.
                 </div>
                 <div class="modal-footer" style="border: none;">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <% if (theme) { %>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <% } else { %>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <% } %>
                     <form action="/delete/<%= ID %>?_method=DELETE" method="POST">
                         <button id="confirm-delete" type="submit" class="btn btn-danger">Delete</button>
                     </form>
@@ -116,7 +128,11 @@
                     Are you certain you want to change your password? Ensure you remember the new one.
                 </div>
                 <div class="modal-footer" style="border: none;">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <% if (theme) { %>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <% } else { %>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <% } %>
                     <button id="change-password" type="submit" class="btn btn-primary" onclick="changePassword()">Change</button>
                 </div>
             </div>
