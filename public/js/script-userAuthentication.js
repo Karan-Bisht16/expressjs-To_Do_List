@@ -38,7 +38,6 @@ const regexEmail = /^([a-zA-Z0-9_\.\-]+)@([a-zA-Z0-9_\.\-]+)\.([a-zA-Z]+)/;
 
 function registrationValidation() {
     let registerEmail = document.getElementById("register-email");
-    console.log(registerEmail.value);
     if (!regexEmail.test(registerEmail.value)){
         try {
             document.querySelector(".server-side-error").style.display = "none";
@@ -58,7 +57,6 @@ function registrationValidation() {
 
 function loginValidation() {
     let loginEmail = document.getElementById("login-email");
-    console.log(loginEmail.value);
     if (!regexEmail.test(loginEmail.value)) {
         try {
             document.querySelector(".server-side-error").style.display = "none";

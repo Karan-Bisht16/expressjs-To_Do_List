@@ -46,9 +46,14 @@
 }
 
 .task>label.form-control {
+    overflow: auto;
     color: var(--text-color);
     text-decoration: line-through;
     background-color: var(--secondary-accent-color);
+}
+
+.task>label.form-control>* {
+    max-width: 100%;
 }
 
 .task>label.form-control.active-task {

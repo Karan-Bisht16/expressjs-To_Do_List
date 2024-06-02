@@ -21,10 +21,13 @@
                                 <% } else { %>
                                     <label class="active-task form-control me-2" value="<%= task["_id"] %>" onclick="strikeTask(this)">
                                 <% } %>
-                                    <input type="checkbox" style="display: none;"><%= task["task_name"] %>
+                                    <input type="checkbox" style="display: none;"><%- task["task_name"] %>
                                 </label>
-                                <button class="primary-toggle btn edit-btn btn-outline-primary me-2" value="<%= task["_id"] %>" onclick="editTask(this);">Edit</button>
-                                <button class="primary-toggle btn remove-btn btn-outline-primary" value="<%= task["_id"] %>" onclick="removeTask(this);">Remove</button>
+                                <button type="button" class="primary-toggle btn btn-outline-primary me-2" data-bs-toggle="modal" 
+                                    data-bs-target="#editTaskModal" value="<%= task["_id"] %>" onclick="editTaskModal(this)">
+                                    Edit
+                                </button>
+                                <button class="primary-toggle btn btn-outline-primary" value="<%= task["_id"] %>" onclick="removeTask(this);">Remove</button>
                             </div>
                         <% }); %>
                 <% } else { %>
@@ -36,6 +39,27 @@
                 <input id="add-task-field" class="form-control me-2" placeholder="+ Add a new task" aria-label="Search" autofocus>
                 <button class="primary-toggle btn btn-outline-primary" type="submit">Add</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Edit Task Modal -->
+    <div class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="editTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 fw-bold" id="editTaskModalLabel">Edit task</h1>
+                    <button id="edit-task-close-btn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input id="edit-task-title" type="text" class="form-control" id="message-text">
+                    </div>
+                </div>
+                <div class="modal-footer" style="border: none;">
+                    <button type="button" class="secondary-toggle btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button id="edit-task" type="submit" class="btn btn-danger" onclick="editTask(this)">Rename</button>
+                </div>
+            </div>
         </div>
     </div>
 

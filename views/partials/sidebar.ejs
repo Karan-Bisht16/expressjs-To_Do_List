@@ -6,7 +6,12 @@
             <i class="fa-solid fa-xmark close-btn"></i>
         </button>
     </div>
-    <div class="offcanvas-body">
+    <% if (!locals.loggedIn) { %>
+        <p class="overlay-text"><a href="/login">Login or Register</a> to unloack all features!</p>
+        <div class="offcanvas-body overlay">
+    <% } else { %>
+        <div class="offcanvas-body">
+    <% } %>
         <ul id="lists" class="navbar-nav justify-content-end flex-grow-1">
             <% if (locals.lists) { %>
                 <% lists.forEach(list=>{ %>
@@ -29,12 +34,36 @@
                     </li>
                 <% }) %>
             <% } else { %>
-                <li class="nav-item list d-flex mt-4">
+                <li class="nav-item list d-flex">
                     <label class="nav-link active-list form-control me-2" aria-current="page" value="null">Home</label>
-                    <button type="button" class="btn btn-outline-primary mt-1 me-1" data-bs-toggle="modal" data-bs-target="#editListModal">
+                    <button type="button" class="btn btn-outline-primary mt-1 me-1" data-bs-toggle="modal" data-bs-target="#renameListModal"
+                        value=null onclick="renameListModal(this)">
                         <i class="fa-solid fa-pen"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" 
+                        value=null onclick="deleteListModal(this)">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </li>
+                <li class="nav-item list d-flex">
+                    <label class="nav-link form-control me-2" aria-current="page" value="null">Work</label>
+                    <button type="button" class="btn btn-outline-primary mt-1 me-1" data-bs-toggle="modal" data-bs-target="#renameListModal"
+                        value=null onclick="renameListModal(this)">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" 
+                        value=null onclick="deleteListModal(this)">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </li>
+                <li class="nav-item list d-flex">
+                    <label class="nav-link form-control me-2" aria-current="page" value="null">Gym</label>
+                    <button type="button" class="btn btn-outline-primary mt-1 me-1" data-bs-toggle="modal" data-bs-target="#renameListModal"
+                        value=null onclick="renameListModal(this)">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" 
+                        value=null onclick="deleteListModal(this)">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </li>
@@ -83,7 +112,7 @@
         </div>
     </div>
 </div>
-<!-- Edit List Modal -->
+<!-- Rename List Modal -->
 <div class="modal fade" id="renameListModal" tabindex="-1" aria-labelledby="renameListModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

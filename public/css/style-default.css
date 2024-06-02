@@ -272,6 +272,25 @@ footer {
     background-color: var(--primary-background-color);
 }
 
+.offcanvas-body.overlay {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 50%;
+    font-size: 40px;
+    font-weight: bold;
+    opacity: 1;
+    z-index: 10;
+    text-align: center;
+}
+
+.overlay-text>a:hover {
+    text-decoration: underline;
+}
+
 .nav-link {
     cursor: pointer;
     color: var(--text-color) !important;
@@ -287,9 +306,12 @@ footer {
     bottom: 20px;
 }
 
-#confirm-delete:focus {
+#confirm-delete:focus,
+#confirm-logout:focus,
+#change-password:focus {
     border: 4px solid rgba(128, 128, 128, 0.8);
 }
+
 .modal-content {
     background-color: var(--secondary-background-color);
 }

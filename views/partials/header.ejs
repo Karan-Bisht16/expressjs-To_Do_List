@@ -20,7 +20,11 @@
     <link rel="stylesheet" type="text/css" href="/css/style-default.css">
 </head>
 
-<body>
+<% if (theme) { %>
+    <body class="dark">
+<% } else { %>
+    <body>
+<% } %>
     <nav class="navbar bg-body-tertiary gradient-background">
         <!-- Header -->
         <div class="container-fluid">
@@ -55,7 +59,12 @@
     </nav>
     <!-- Theme Toggle Button -->
     <div class="toggle-theme">
-        <input type="checkbox" id="theme-button" class="theme-toggle-button" />
+        <% if (theme) { %>
+            <input type="checkbox" id="theme-button" class="theme-toggle-button" checked/>
+        <% } else { %>
+            <input type="checkbox" id="theme-button" class="theme-toggle-button"/>
+            <body>
+        <% } %>
         <label for="theme-button" class="theme-label">
             <svg class="sun" viewBox="0 0 24 24">
                 <path

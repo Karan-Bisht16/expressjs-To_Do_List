@@ -1,5 +1,4 @@
 const express = require("express");
-// to encrypt passwords
 const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 const User = require("../models/user");
@@ -11,7 +10,7 @@ router.get("/login", (req, res) => {
     if (req.session.userID || req.session.userName || req.session.userEmail) {
         res.redirect("/");
     } else {
-        res.render("userAuthentication.ejs", { error: null });
+        res.render("userAuthentication.ejs", { error: null, theme: req.session.currentTheme });
     }
 });
 
@@ -23,7 +22,7 @@ router.post("/register", async (req, res) => {
         // encrypting user password
         bcrypt.hash(userPassword, saltRounds, (err, hashedPassword) => {
             if (err) {
-                res.render("userAuthentication.ejs", { error: "Registration failed. Try again." });
+                res.render("userAuthentication.ejs", { error: "Registration failed. Try again.", theme: req.session.currentTheme });
             }
             let newUser = new User({
                 user_name: username,
@@ -53,11 +52,11 @@ router.post("/register", async (req, res) => {
                 })
                 .catch(error => {
                     console.log("Error saving user data: ", error);
-                    res.render("userAuthentication.ejs", { error: "Server side error. Try again." });
+                    res.render("userAuthentication.ejs", { error: "Server side error. Try again.", theme: req.session.currentTheme });
                 });
         });
     } else {
-        res.render("userAuthentication.ejs", { error: "User already exists." });
+        res.render("userAuthentication.ejs", { error: "User already exists.", theme: req.session.currentTheme });
     }
 });
 
@@ -68,14 +67,13 @@ router.post("/login", (req, res) => {
             if (user) {
                 bcrypt.compare(userPassword, user.user_password, async (err, result) => {
                     if (err) {
-                        res.render("userAuthentication.ejs", { error: "Login failed. Try again." });
+                        res.render("userAuthentication.ejs", { error: "Login failed. Try again.", theme: req.session.currentTheme });
                     }
                     if (result) {
                         req.session.userEmail = user.user_email;
                         req.session.userName = user.user_name;
                         req.session.userID = user._id;
-                        const list = await List.findOne({list_user_id: user._id});
-                        console.log(list);
+                        const list = await List.findOne({ list_user_id: user._id });
                         if (list === null) {
                             let homeList = new List({
                                 list_name: "Home",
@@ -90,16 +88,16 @@ router.post("/login", (req, res) => {
                         }
                         res.redirect("/");
                     } else {
-                        res.render("userAuthentication.ejs", { error: "Incorrect password" });
+                        res.render("userAuthentication.ejs", { error: "Incorrect password", theme: req.session.currentTheme });
                     }
                 });
             } else {
-                res.render("userAuthentication.ejs", { error: "User not found. <a href='#' onclick='redirectIfIncorrectPassword()'>Create an account</a>." });
+                res.render("userAuthentication.ejs", { error: "User not found. <a href='#' onclick='redirectIfIncorrectPassword()'>Create an account</a>.", theme: req.session.currentTheme });
             }
         })
         .catch(error => {
             console.log(error);
-            res.render("userAuthentication.ejs", { error: "Network error. Try again." });
+            res.render("userAuthentication.ejs", { error: "Network error. Try again.", theme: req.session.currentTheme });
         });
 });
 

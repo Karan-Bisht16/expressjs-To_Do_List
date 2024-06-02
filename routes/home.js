@@ -5,18 +5,17 @@ const Task = require("../models/task");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-    console.log(req.session);
+    req.session.currentTheme = req.session.currentTheme || false;
     if (req.session.userID && req.session.userEmail && req.session.userName) {
         let lists = await List.find({ list_user_id: req.session.userID });
         let tasks = await Task.find({ task_list_id: req.session.currentListID });
-        res.render("index.ejs", { ID: req.session.userID, name: req.session.userName, email: req.session.userEmail, currentListID: req.session.currentListID, tasks, lists, loggedIn: true });
+        res.render("index.ejs", { ID: req.session.userID, name: req.session.userName, email: req.session.userEmail, currentListID: req.session.currentListID, tasks, lists, loggedIn: true, theme: req.session.currentTheme });
     } else {
-        res.render("index.ejs", { loggedIn: false });
+        res.render("index.ejs", { loggedIn: false, theme: req.session.currentTheme });
     }
 });
 
 router.put("/add-task", async (req, res) => {
-    console.log(req.body);
     const { title } = req.body;
     if (req.session.userID && req.session.userEmail && req.session.userName) {
         let list = await List.findById(req.session.currentListID);
@@ -39,7 +38,6 @@ router.put("/add-task", async (req, res) => {
 });
 
 router.put("/strike-task", async (req, res) => {
-    console.log(req.body);
     const { taskID, is_striked } = req.body;
     if (req.session.userID && req.session.userEmail && req.session.userName) {
         try {
@@ -53,7 +51,6 @@ router.put("/strike-task", async (req, res) => {
 });
 
 router.delete("/remove-task", async (req, res) => {
-    console.log(req.body);
     const { taskID } = req.body;
     if (req.session.userID && req.session.userEmail && req.session.userName) {
         try {
@@ -66,8 +63,20 @@ router.delete("/remove-task", async (req, res) => {
     res.sendStatus(200);
 });
 
+router.patch("/edit-task", async (req, res) => {
+    const { taskID, title } = req.body;
+    if (req.session.userID && req.session.userEmail && req.session.userName) {
+        try {
+            await Task.findByIdAndUpdate(taskID, { task_name: title });
+        } catch (error) {
+            console.log("Error editing task: " + error);
+            res.sendStatus(500);
+        }
+    }
+    res.sendStatus(200);
+});
+
 router.patch("/change-list", async (req, res) => {
-    console.log(req.body);
     const { listID } = req.body;
     try {
         let list = await List.findById(listID);
@@ -81,7 +90,6 @@ router.patch("/change-list", async (req, res) => {
 });
 
 router.post("/add-list", async (req, res) => {
-    console.log(req.body);
     const { title } = req.body;
     if (req.session.userID && req.session.userEmail && req.session.userName) {
         let newList = new List({
@@ -101,7 +109,6 @@ router.post("/add-list", async (req, res) => {
 });
 
 router.patch("/rename-list", async (req, res) => {
-    console.log(req.body);
     const { listID, title } = req.body;
     if (req.session.userID && req.session.userEmail && req.session.userName) {
         try {
@@ -115,7 +122,6 @@ router.patch("/rename-list", async (req, res) => {
 });
 
 router.delete("/remove-list", async (req, res) => {
-    console.log(req.body);
     const { listID } = req.body;
     if (req.session.userID && req.session.userEmail && req.session.userName) {
         try {
@@ -136,6 +142,11 @@ router.delete("/remove-list", async (req, res) => {
     } else {
         res.sendStatus(200);
     }
+});
+
+router.put("/change-theme", async (req, res) => {
+    req.session.currentTheme = req.body.theme;
+    res.sendStatus(200);
 });
 
 module.exports = router;

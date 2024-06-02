@@ -6,7 +6,7 @@ dateTimeElement.textContent = dayName[date.getDay()] + ", " + monthNames[date.ge
 
 const themeButton = document.getElementById("theme-button");
 
-themeButton.addEventListener("click", () => {
+themeButton.addEventListener("click", async () => {
     document.body.classList.toggle("dark");
     let secondaryButton = document.querySelectorAll(".secondary-toggle");
     secondaryButton.forEach(button => {
@@ -18,4 +18,23 @@ themeButton.addEventListener("click", () => {
         button.classList.toggle("btn-outline-primary");
         button.classList.toggle("btn-primary");
     });
+    const baseURL = window.location.origin + "/change-theme";
+    console.log(baseURL);
+    try {
+        const response = await fetch(baseURL, {
+            method: "PUT",
+            headers: {
+                "Accept": "application/json, text/plain, */*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                theme: document.body.classList.contains("dark")
+            })
+        });
+        if (!response.ok && !response.status === 200) {
+            alert("Network error. Please refresh.");
+        }
+    } catch (error) {
+        console.log("Error in /change-theme: " + error);
+    }
 });

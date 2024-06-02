@@ -20,6 +20,6 @@
 /* Styling for error message */
 .error {
     font-weight: bold;
-    padding-left: 40px;
+    position: absolute;
     color: var(--error-text-color);
 }
