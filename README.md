@@ -1,3 +1,2 @@
 # expressjs-To_Do_List
-An ongoing project to try and implement **node.js** alongside **express.js** to my previous project '[js-To_Do_List](https://karan-bisht16.github.io/js-To_Do_List/)'. <br />
-This project does not make use of database connectivity.
+A simple 'To-Do List' project to try and implement **node.js**, **express.js** alongside **mongodb** to my previous project '[js-To_Do_List](https://karan-bisht16.github.io/js-To_Do_List/)'. <br />
