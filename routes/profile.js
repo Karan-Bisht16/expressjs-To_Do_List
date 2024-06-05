@@ -10,7 +10,7 @@ const router = express.Router();
 router.get("/profile/:id", (req, res) => {
     const { id } = req.params;
     if (req.session.userID && req.session.userName && req.session.userEmail && req.session.userID == id) {
-        res.render("profile.ejs", { ID: req.session.userID, name: req.session.userName, theme: req.session.currentTheme });
+        res.render("profile.ejs", { user: req.session });
     } else {
         res.redirect("/");
     }
@@ -22,6 +22,7 @@ router.get("/logout", (req, res) => {
             console.error("Session destruction error:", err);
             return;
         }
+        res.clearCookie("connect.sid");
         res.redirect("/");
     });
 });
@@ -38,13 +39,14 @@ router.delete("/delete/:id", async (req, res) => {
                     console.error("Session destruction error:", err);
                     return;
                 }
+                res.clearCookie("connect.sid");
                 res.redirect("/");
             });
         } catch (error) {
             console.log("Error deleting user: " + error);
         }
     } else {
-        res.render("profile.ejs", { ID: req.session.userID, accountError: "Invalid user id. Please refresh", theme: req.session.currentTheme });
+        res.render("profile.ejs", { user: req.session, accountError: "Invalid user id. Please refresh" });
     }
 });
 

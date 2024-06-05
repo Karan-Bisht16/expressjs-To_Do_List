@@ -20,7 +20,7 @@
     <link rel="stylesheet" type="text/css" href="/css/style-default.css">
 </head>
 
-<% if (theme) { %>
+<% if (user.currentTheme) { %>
     <body class="dark">
 <% } else { %>
     <body>
@@ -40,10 +40,10 @@
                 <a class="navbar-brand" href="/">QuickList</a>
                 <p id="date-time"></p>
             </div>
-            <% if (locals.name) { %>
-                <a class="account" href="/profile/<%= ID %>">
+            <% if (locals.user.userID) { %>
+                <a class="account" href="/profile/<%= user.userID %>">
                     <i class="fa-regular fa-user"></i>
-                    <p><%= name %></p>
+                    <p><%= user.userName %></p>
                 </a>
             <% } else { %>
                 <a class="account" href="/login">
@@ -57,7 +57,7 @@
     </nav>
     <!-- Theme Toggle Button -->
     <div class="toggle-theme">
-        <% if (theme) { %>
+        <% if (user.currentTheme) { %>
             <input type="checkbox" id="theme-button" class="theme-toggle-button" checked/>
         <% } else { %>
             <input type="checkbox" id="theme-button" class="theme-toggle-button"/>

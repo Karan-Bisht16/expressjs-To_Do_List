@@ -7,11 +7,13 @@ var methodOverride = require("method-override");
 const app = express();
 const PORT = 1600;
 
+// Middleware setup
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
-
 app.use(express.static(__dirname+'/public'));
+
+// View engine setup
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, "views"));
 
@@ -31,8 +33,11 @@ const mongoStore = MongoStore.create({
 app.use(session({
     secret: process.env.SessionSecret,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: mongoStore,
+    cookie: { 
+        maxAge: 365 * 24 * 60 * 60 * 1000
+    }
 }));
 
 const home = require("./routes/home");

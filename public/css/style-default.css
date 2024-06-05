@@ -306,7 +306,8 @@ footer {
     bottom: 20px;
 }
 
-#confirm-delete:focus,
+#confirm-delete-account:focus,
+#confirm-delete-list:focus,
 #confirm-logout:focus,
 #change-password:focus {
     border: 4px solid rgba(128, 128, 128, 0.8);

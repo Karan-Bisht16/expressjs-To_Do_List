@@ -1,6 +1,7 @@
 const express = require("express");
 const List = require("../models/list");
 const Task = require("../models/task");
+const { loggedIn } = require("../loginMiddleware");
 
 const router = express.Router();
 
@@ -9,9 +10,9 @@ router.get("/", async (req, res) => {
     if (req.session.userID && req.session.userEmail && req.session.userName) {
         let lists = await List.find({ list_user_id: req.session.userID });
         let tasks = await Task.find({ task_list_id: req.session.currentListID });
-        res.render("index.ejs", { ID: req.session.userID, name: req.session.userName, email: req.session.userEmail, currentListID: req.session.currentListID, tasks, lists, loggedIn: true, theme: req.session.currentTheme });
+        res.render("index.ejs", { user: req.session, tasks, lists, loggedIn: true });
     } else {
-        res.render("index.ejs", { loggedIn: false, theme: req.session.currentTheme });
+        res.render("index.ejs", { user: req.session, loggedIn: false });
     }
 });
 
@@ -76,71 +77,61 @@ router.patch("/edit-task", async (req, res) => {
     res.sendStatus(200);
 });
 
-router.patch("/change-list", async (req, res) => {
+router.post("/add-list", loggedIn, async (req, res) => {
+    const { title } = req.body;
+    let newList = new List({
+        list_name: title,
+        list_user_id: req.session.userID,
+    });
+    try {
+        let list = await newList.save();
+        res.send({ listID: list._id });
+    } catch (error) {
+        console.log("Error saving list: " + error);
+        res.sendStatus(500);
+    }
+});
+
+router.patch("/change-list", loggedIn, async (req, res) => {
     const { listID } = req.body;
     try {
         let list = await List.findById(listID);
         req.session.currentListID = list._id;
         req.session.currentListName = list.list_name;
+        res.sendStatus(200);
     } catch (error) {
         console.log("Error changing list: " + error);
         res.sendStatus(500);
     }
-    res.sendStatus(200);
 });
 
-router.post("/add-list", async (req, res) => {
-    const { title } = req.body;
-    if (req.session.userID && req.session.userEmail && req.session.userName) {
-        let newList = new List({
-            list_name: title,
-            list_user_id: req.session.userID,
-        });
-        try {
-            let list = await newList.save();
-            res.send({ listID: list._id });
-        } catch (error) {
-            console.log("Error saving list: " + error);
-            res.sendStatus(500);
-        }
-    } else {
-        res.send({ listID: null });
-    }
-});
-
-router.patch("/rename-list", async (req, res) => {
+router.patch("/rename-list", loggedIn, async (req, res) => {
     const { listID, title } = req.body;
-    if (req.session.userID && req.session.userEmail && req.session.userName) {
-        try {
-            await List.findByIdAndUpdate(listID, { list_name: title });
-        } catch (error) {
-            console.log("Error renaming list: " + error);
-            res.sendStatus(500);
-        }
+    try {
+        await List.findByIdAndUpdate(listID, { list_name: title });
+        res.sendStatus(200);
+    } catch (error) {
+        console.log("Error renaming list: " + error);
+        res.sendStatus(500);
     }
-    res.sendStatus(200);
 });
 
-router.delete("/remove-list", async (req, res) => {
+router.delete("/delete-list", loggedIn, async (req, res) => {
     const { listID } = req.body;
-    if (req.session.userID && req.session.userEmail && req.session.userName) {
-        try {
-            await List.findByIdAndDelete(listID);
-            await Task.deleteMany({ task_list_id: listID });
-            if (listID == req.session.currentListID) {
-                const newCurrentList = await List.findOne({ list_user_id: req.session.userID });
-                req.session.currentListName = newCurrentList.list_name;
-                req.session.currentListID = newCurrentList._id;
-                res.send({ currentListDeleted: true });
-            } else {
-                res.send({ currentListDeleted: false });
-            }
-        } catch (error) {
-            console.log("Error removing list: " + error);
-            res.sendStatus(500);
+    try {
+        await List.findByIdAndDelete(listID);
+        await Task.deleteMany({ task_list_id: listID });
+        if (listID == req.session.currentListID) {
+            const newCurrentList = await List.findOne({ list_user_id: req.session.userID });
+            req.session.currentListName = newCurrentList.list_name;
+            req.session.currentListID = newCurrentList._id;
+            res.send({ currentListDeleted: true });
+        } else {
+            res.send({ currentListDeleted: false });
         }
-    } else {
-        res.sendStatus(200);
+    } catch (error) {
+        console.log("Error removing list: " + error);
+        res.sendStatus(500);
     }
 });
 

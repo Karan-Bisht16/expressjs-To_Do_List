@@ -14,35 +14,35 @@
         <div class="lower-section">
             <div id="tasks" class="list-content">
                 <% if (locals.tasks) { %>
-                        <% tasks.forEach(task=>{ %>
-                            <div class="task d-flex mt-2">
-                                <% if (task.is_Checked) { %>
-                                    <label class="form-control me-2" value="<%= task["_id"] %>" onclick="strikeTask(this)">
-                                <% } else { %>
-                                    <label class="active-task form-control me-2" value="<%= task["_id"] %>" onclick="strikeTask(this)">
-                                <% } %>
-                                    <input type="checkbox" style="display: none;"><%- task["task_name"] %>
-                                </label>
-                                <% if (theme) { %>
-                                    <button type="button" class="primary-toggle edit-btn btn btn-primary me-2" data-bs-toggle="modal" 
-                                        data-bs-target="#editTaskModal" value="<%= task["_id"] %>" onclick="editTaskModal(this)">
-                                <% } else { %>
-                                    <button type="button" class="primary-toggle edit-btn btn btn-outline-primary me-2" data-bs-toggle="modal" 
-                                        data-bs-target="#editTaskModal" value="<%= task["_id"] %>" onclick="editTaskModal(this)">
-                                <% } %>
-                                        <span>Edit</span>
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                <% if (theme) { %>
-                                    <button class="primary-toggle remove-btn btn btn-primary" value="<%= task["_id"] %>" onclick="removeTask(this);">
-                                <% } else { %>
-                                    <button class="primary-toggle remove-btn btn btn-outline-primary" value="<%= task["_id"] %>" onclick="removeTask(this);">
-                                <% } %>
-                                    <span>Remove</span>
-                                    <i class="fa-solid fa-trash-can"></i>
+                    <% tasks.forEach(task=>{ %>
+                        <div class="task d-flex mt-2">
+                            <% if (task.is_Checked) { %>
+                                <label class="form-control me-2" value="<%= task["_id"] %>" onclick="strikeTask(this)">
+                            <% } else { %>
+                                <label class="active-task form-control me-2" value="<%= task["_id"] %>" onclick="strikeTask(this)">
+                            <% } %>
+                                <input type="checkbox" style="display: none;"><%- task["task_name"] %>
+                            </label>
+                            <% if (user.currentTheme) { %>
+                                <button type="button" class="primary-toggle edit-btn btn btn-primary me-2" data-bs-toggle="modal" 
+                                    data-bs-target="#editTaskModal" value="<%= task["_id"] %>" onclick="editTaskModal(this)">
+                            <% } else { %>
+                                <button type="button" class="primary-toggle edit-btn btn btn-outline-primary me-2" data-bs-toggle="modal" 
+                                    data-bs-target="#editTaskModal" value="<%= task["_id"] %>" onclick="editTaskModal(this)">
+                            <% } %>
+                                    <span>Edit</span>
+                                    <i class="fa-solid fa-pen"></i>
                                 </button>
-                            </div>
-                        <% }); %>
+                            <% if (user.currentTheme) { %>
+                                <button class="primary-toggle remove-btn btn btn-primary" value="<%= task["_id"] %>" onclick="removeTask(this);">
+                            <% } else { %>
+                                <button class="primary-toggle remove-btn btn btn-outline-primary" value="<%= task["_id"] %>" onclick="removeTask(this);">
+                            <% } %>
+                                <span>Remove</span>
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    <% }); %>
                 <% } else { %>
                     <p class="if-empty">Add something spicy to your list</p>
                 <% } %>
@@ -50,7 +50,7 @@
     
             <form class="d-flex mt-4" role="search" onsubmit="addTask()">
                 <input id="add-task-field" class="form-control me-2" placeholder="+ Add a new task" aria-label="Search" autofocus>
-                <% if (theme) { %>
+                <% if (user.currentTheme) { %>
                     <button class="primary-toggle btn btn-primary" type="submit">Add</button>
                 <% } else { %>
                     <button class="primary-toggle btn btn-outline-primary" type="submit">Add</button>

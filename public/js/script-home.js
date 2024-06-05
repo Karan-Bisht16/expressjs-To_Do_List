@@ -218,8 +218,12 @@ async function addList() {
                     title: newListTitle
                 })
             });
-            if (!response.ok && !response.status === 200) {
-                alert("Network error. Please refresh.");
+            if (!response.ok) {
+                if (response.status === 403) {
+                    alert("Feature available for registered user only.");
+                } else if (!response.status === 200) {
+                    alert("Network error. Please refresh.");
+                }
             } else {
                 const decodedResponse = await response.json();
                 lists.innerHTML +=
@@ -257,8 +261,12 @@ async function changeList(labelElement) {
                     listID: labelElement.getAttribute("value")
                 })
             });
-            if (!response.ok && !response.status === 200) {
-                alert("Network error. Please refresh.");
+            if (!response.ok) {
+                if (response.status === 403) {
+                    alert("Feature available for registered user only.");
+                } else if (!response.status === 200) {
+                    alert("Network error. Please refresh.");
+                }
             } else {
                 const currentActiveList = document.querySelector(".active-list");
                 currentActiveList.classList.remove("active-list");
@@ -268,53 +276,6 @@ async function changeList(labelElement) {
         } catch (error) {
             console.log("Error in /change-list:", error);
         }
-    }
-}
-// Delete list
-let confirmationButton = document.body;
-const deleteListModalElement = document.getElementById("deleteModal");
-deleteListModalElement.addEventListener("shown.bs.modal", function () {
-    confirmationButton.focus();
-});
-function deleteListModal(buttonElement) {
-    if (document.querySelectorAll(".list").length < 2) {
-        buttonElement.setAttribute("data-bs-target", "#atleastModal");
-        buttonElement.click();
-    } else {
-        buttonElement.setAttribute("data-bs-target", "#deleteModal");
-        buttonElement.click();
-        confirmationButton = document.getElementById("confirm-delete");
-        confirmationButton.setAttribute("value", buttonElement.getAttribute("value"));
-    }
-}
-async function deleteList(buttonElement) {
-    let currentURL = window.location.href + "remove-list";
-    try {
-        const response = await fetch(currentURL, {
-            method: "DELETE",
-            headers: {
-                "Accept": "application/json, text/plain, */*",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                listID: buttonElement.getAttribute("value")
-            })
-        });
-        if (!response.ok && !response.status === 200) {
-            alert("Network error. Please refresh.");
-        } else {
-            const decodedResponse = await response.json();
-            if (decodedResponse.currentListDeleted) {
-                location.reload();
-            } else {
-                document.getElementById("delete-list-close-btn").click();
-                let filterString = "label.nav-link[value='" + buttonElement.getAttribute("value") + "']";
-                const parentElement = document.querySelector(filterString).parentNode;
-                parentElement.remove();
-            }
-        }
-    } catch (error) {
-        console.log("Error in /remove-list:", error);
     }
 }
 // Rename list
@@ -348,8 +309,12 @@ async function renameList(buttonElement) {
                 title: renameListField.value
             })
         });
-        if (!response.ok && !response.status === 200) {
-            alert("Network error. Please refresh.");
+        if (!response.ok) {
+            if (response.status === 403) {
+                alert("Feature available for registered user only.");
+            } else if (!response.status === 200) {
+                alert("Network error. Please refresh.");
+            }
         } else {
             document.getElementById("rename-list-close-btn").click();
             let filterString = "label.nav-link[value='" + buttonElement.getAttribute("value") + "']";
@@ -358,5 +323,56 @@ async function renameList(buttonElement) {
         }
     } catch (error) {
         console.log("Error in /rename-list:", error);
+    }
+}
+// Delete list
+let confirmationButton = document.body;
+const deleteListModalElement = document.getElementById("deleteListModal");
+deleteListModalElement.addEventListener("shown.bs.modal", function () {
+    confirmationButton.focus();
+});
+function deleteListModal(buttonElement) {
+    if (document.querySelectorAll(".list").length < 2) {
+        buttonElement.setAttribute("data-bs-target", "#atleastModal");
+        buttonElement.click();
+    } else {
+        buttonElement.setAttribute("data-bs-target", "#deleteListModal");
+        buttonElement.click();
+        confirmationButton = document.getElementById("confirm-delete-list");
+        confirmationButton.setAttribute("value", buttonElement.getAttribute("value"));
+    }
+}
+async function deleteList(buttonElement) {
+    let currentURL = window.location.href + "delete-list";
+    try {
+        const response = await fetch(currentURL, {
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json, text/plain, */*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                listID: buttonElement.getAttribute("value")
+            })
+        });
+        if (!response.ok) {
+            if (response.status === 403) {
+                alert("Feature available for registered user only.");
+            } else if (!response.status === 200) {
+                alert("Network error. Please refresh.");
+            }
+        } else {
+            const decodedResponse = await response.json();
+            if (decodedResponse.currentListDeleted) {
+                location.reload();
+            } else {
+                document.getElementById("delete-list-close-btn").click();
+                let filterString = "label.nav-link[value='" + buttonElement.getAttribute("value") + "']";
+                const parentElement = document.querySelector(filterString).parentNode;
+                parentElement.remove();
+            }
+        }
+    } catch (error) {
+        console.log("Error in /delete-list:", error);
     }
 }

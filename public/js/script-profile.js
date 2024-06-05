@@ -91,7 +91,7 @@ const changePasswordModal = document.getElementById("changePasswordModal");
 changePasswordModal.addEventListener("shown.bs.modal", function () {
     document.getElementById("change-password").focus();
 });
-const deleteModal = document.getElementById("deleteModal");
-deleteModal.addEventListener("shown.bs.modal", function () {
-    document.getElementById("confirm-delete").focus();
+const deleteAccountModal = document.getElementById("deleteAccountModal");
+deleteAccountModal.addEventListener("shown.bs.modal", function () {
+    document.getElementById("confirm-delete-account").focus();
 });

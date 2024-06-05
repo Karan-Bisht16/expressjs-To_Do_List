@@ -16,7 +16,7 @@
             <% if (locals.lists) { %>
                 <% lists.forEach(list=>{ %>
                     <li class="nav-item list d-flex">
-                        <% if (currentListID == list["_id"]) { %>
+                        <% if (user.currentListID == list["_id"]) { %>
                             <label class="nav-link active-list form-control me-2" aria-current="page"
                                 value="<%= list["_id"] %>" onclick="changeList(this)"><%= list["list_name"] %></label>
                         <% } else { %>
@@ -36,34 +36,28 @@
             <% } else { %>
                 <li class="nav-item list d-flex">
                     <label class="nav-link active-list form-control me-2" aria-current="page" value="null">Home</label>
-                    <button type="button" class="btn btn-outline-primary mt-1 me-1" data-bs-toggle="modal" data-bs-target="#renameListModal"
-                        value=null onclick="renameListModal(this)">
+                    <button type="button" class="btn btn-outline-primary mt-1 me-1">
                         <i class="fa-solid fa-pen"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" 
-                        value=null onclick="deleteListModal(this)">
+                    <button type="button" class="btn btn-outline-primary mt-1">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </li>
                 <li class="nav-item list d-flex">
                     <label class="nav-link form-control me-2" aria-current="page" value="null">Work</label>
-                    <button type="button" class="btn btn-outline-primary mt-1 me-1" data-bs-toggle="modal" data-bs-target="#renameListModal"
-                        value=null onclick="renameListModal(this)">
+                    <button type="button" class="btn btn-outline-primary mt-1 me-1">
                         <i class="fa-solid fa-pen"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" 
-                        value=null onclick="deleteListModal(this)">
+                    <button type="button" class="btn btn-outline-primary mt-1">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </li>
                 <li class="nav-item list d-flex">
                     <label class="nav-link form-control me-2" aria-current="page" value="null">Gym</label>
-                    <button type="button" class="btn btn-outline-primary mt-1 me-1" data-bs-toggle="modal" data-bs-target="#renameListModal"
-                        value=null onclick="renameListModal(this)">
+                    <button type="button" class="btn btn-outline-primary mt-1 me-1">
                         <i class="fa-solid fa-pen"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" 
-                        value=null onclick="deleteListModal(this)">
+                    <button type="button" class="btn btn-outline-primary mt-1">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </li>
@@ -78,23 +72,23 @@
     </div>
 </div>
 <!-- Delete Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteListModal" tabindex="-1" aria-labelledby="deleteListModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5 fw-bold" id="deleteModalLabel">Delete List?</h1>
+                <h1 class="modal-title fs-5 fw-bold" id="deleteListModalLabel">Delete List?</h1>
                 <button id="delete-list-close-btn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 The entire list including tasks within will be deleted. 
             </div>
             <div class="modal-footer" style="border: none;">
-                <% if (theme) { %>
+                <% if (user.currentTheme) { %>
                     <button type="button" class="secondary-toggle btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <% } else { %>
                     <button type="button" class="secondary-toggle btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
                 <% } %>
-                <button id="confirm-delete" type="button" class="btn btn-danger" onclick="deleteList(this)">Delete</button>
+                <button id="confirm-delete-list" type="button" class="btn btn-danger" onclick="deleteList(this)">Delete</button>
             </div>
         </div>
     </div>
@@ -130,7 +124,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="border: none;">
-                <% if (theme) { %>
+                <% if (user.currentTheme) { %>
                     <button type="button" class="secondary-toggle btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <% } else { %>
                     <button type="button" class="secondary-toggle btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
