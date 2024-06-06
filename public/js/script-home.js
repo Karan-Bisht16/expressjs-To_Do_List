@@ -38,7 +38,7 @@ async function addTask() {
     event.preventDefault();
     const newTaskTitle = newTask.value.trim()
     if (newTaskTitle !== "") {
-        let currentURL = window.location.href + "add-task";
+        let currentURL = window.location.origin + "/add-task";
         try {
             const response = await fetch(currentURL, {
                 method: "PUT",
@@ -98,7 +98,7 @@ async function addTask() {
 }
 // Strike task
 async function strikeTask(labelElement) {
-    let currentURL = window.location.href + "strike-task";
+    let currentURL = window.location.origin + "/strike-task";
     let striked = true;
     if (labelElement.classList.contains("active-task")) {
         striked = false;
@@ -132,7 +132,7 @@ async function strikeTask(labelElement) {
 }
 // Remove task
 async function removeTask(buttonElement) {
-    let currentURL = window.location.href + "remove-task";
+    let currentURL = window.location.origin + "/remove-task";
     try {
         const response = await fetch(currentURL, {
             method: "DELETE",
@@ -173,7 +173,7 @@ function editTaskModal(buttonElement) {
     confirmationButton.setAttribute("value", buttonElement.getAttribute("value"));
 }
 async function editTask(buttonElement) {
-    let currentURL = window.location.href + "edit-task";
+    let currentURL = window.location.origin + "/edit-task";
     try {
         const response = await fetch(currentURL, {
             method: "PATCH",
@@ -206,7 +206,7 @@ async function addList() {
     event.preventDefault();
     const newListTitle = newList.value.trim()
     if (newListTitle !== "") {
-        let currentURL = window.location.href + "add-list";
+        let currentURL = window.location.origin + "/add-list";
         try {
             const response = await fetch(currentURL, {
                 method: "POST",
@@ -249,7 +249,7 @@ async function addList() {
 // Change list
 async function changeList(labelElement) {
     if (!labelElement.classList.contains("active-list")) {
-        let currentURL = window.location.href + "change-list";
+        let currentURL = window.location.origin + "/change-list";
         try {
             const response = await fetch(currentURL, {
                 method: "PATCH",
@@ -296,7 +296,7 @@ function renameListModal(buttonElement) {
     confirmationButton.setAttribute("value", buttonElement.getAttribute("value"));
 }
 async function renameList(buttonElement) {
-    let currentURL = window.location.href + "rename-list";
+    let currentURL = window.location.origin + "/rename-list";
     try {
         const response = await fetch(currentURL, {
             method: "PATCH",
@@ -343,7 +343,7 @@ function deleteListModal(buttonElement) {
     }
 }
 async function deleteList(buttonElement) {
-    let currentURL = window.location.href + "delete-list";
+    let currentURL = window.location.origin + "/delete-list";
     try {
         const response = await fetch(currentURL, {
             method: "DELETE",

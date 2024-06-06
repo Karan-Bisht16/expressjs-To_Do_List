@@ -19,7 +19,6 @@ themeButton.addEventListener("click", async () => {
         button.classList.toggle("btn-primary");
     });
     const baseURL = window.location.origin + "/change-theme";
-    console.log(baseURL);
     try {
         const response = await fetch(baseURL, {
             method: "PUT",
